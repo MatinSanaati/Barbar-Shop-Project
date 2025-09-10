@@ -128,7 +128,7 @@ const Header = ({ theme, toggleTheme }) => {
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="mobile-header">
-                        <Link to="/user" className="mobile-logo">
+                        <Link to="/" className="mobile-logo">
                             <i className="fas fa-cut"></i>
                             <span>آرایشگاه مردانه</span>
                         </Link>
