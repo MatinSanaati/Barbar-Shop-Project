@@ -51,6 +51,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({ error: 'شماره تلفن الزامی است' });
         }
 
+        // چک کردن وجود کاربر در دیتابیس
         const user = await User.login(phone);
 
         // ✅ تعیین نقش: اگر شماره ادمین بود، نقش admin بده
@@ -72,9 +73,15 @@ exports.login = async (req, res) => {
             path: '/'
         });
 
+        // ✅ ارسال اطلاعات کاربر به فرانت (شامل role)
         res.json({
             message: 'ورود موفقیت‌آمیز',
-            user: { id: user.id, name: user.name, phone: user.phone, role } // ✅ role جدید فرستاده می‌شه
+            user: {
+                id: user.id,
+                name: user.name,
+                phone: user.phone,
+                role
+            }
         });
     } catch (err) {
         res.status(401).json({ error: err.message });

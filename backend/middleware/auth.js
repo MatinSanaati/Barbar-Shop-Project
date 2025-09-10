@@ -10,19 +10,16 @@ const auth = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // ✅ گرفتن اطلاعات کامل کاربر از دیتابیس با ID
+        // گرفتن اطلاعات کامل کاربر از دیتابیس
         User.findById(decoded.id)
             .then(user => {
-                req.user = user; // حالا شامل name, phone, id, role هست
+                req.user = user; // شامل name, phone, role
                 next();
             })
-            .catch(err => {
-                console.error('❌ کاربر یافت نشد:', err.message);
+            .catch(() => {
                 return res.status(401).json({ error: 'کاربر یافت نشد' });
             });
-
     } catch (err) {
-        console.error('❌ توکن نامعتبر:', err.message);
         return res.status(403).json({ error: 'توکن نامعتبر یا منقضی شده' });
     }
 };

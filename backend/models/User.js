@@ -52,6 +52,42 @@ class User {
             );
         });
     }
+
+    // ✅ متد جدید: آپدیت کاربر
+    static async update(id, updates) {
+        const fields = [];
+        const values = [];
+
+        // فقط فیلدهای موجود رو اضافه کن
+        if (updates.name) {
+            fields.push('name = ?');
+            values.push(updates.name);
+        }
+        if (updates.phone) {
+            fields.push('phone = ?');
+            values.push(updates.phone);
+        }
+
+        // اگه هیچ فیلدی نباشه
+        if (fields.length === 0) {
+            return this.findById(id);
+        }
+
+        // اضافه کردن id به انتهای مقادیر
+        values.push(id);
+
+        return new Promise((resolve, reject) => {
+            db.run(
+                `UPDATE users SET ${fields.join(', ')} WHERE id = ?`,
+                values,
+                function (err) {
+                    if (err) return reject(err);
+                    // بخون کاربر جدید رو
+                    User.findById(id).then(resolve).catch(reject);
+                }
+            );
+        });
+    }
 }
 
 module.exports = User;

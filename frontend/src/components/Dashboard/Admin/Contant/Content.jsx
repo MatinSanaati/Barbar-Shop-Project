@@ -1,13 +1,12 @@
 // src/components/Content.jsx
 import React from "react";
-import { Outlet } from "react-router-dom"; // مهم برای رندر صفحات
 import "./Content.css";
+import Main from "../Main/Main";
 
 const Content = () => {
     return (
         <div className="content">
-            {/* Outlet جای تمام صفحات فولدر pages رو میگیره */}
-            <Outlet />
+            <Main />
         </div>
     );
 };

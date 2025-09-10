@@ -1,5 +1,4 @@
-// src/routes/AppRoutes.jsx
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // لندینگ
@@ -53,27 +52,18 @@ import AuthLayoutPage from "../auth/Auth-Layouts";
 const AppRoutes = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("http://localhost:5000/api/users/me", {
             method: "GET",
             credentials: "include"
         })
-            .then(res => {
-                if (res.ok) return res.json();
-                throw new Error("کاربر وارد نشده");
-            })
-            .then(data => {
-                setUser(data.user); // ✅ فقط وقتی موفق باشه
-            })
-            .catch(err => {
-                console.error('خطا:', err);
-                setUser(null);
-            })
+            .then(res => res.ok ? res.json() : Promise.reject())
+            .then(data => setUser(data.user))
+            .catch(() => setUser(null))
             .finally(() => setLoading(false));
     }, []);
-    
+
     if (loading) {
         return <div style={{ textAlign: 'center', padding: '50px' }}>در حال بارگذاری...</div>;
     }
@@ -147,6 +137,14 @@ const AppRoutes = () => {
                     <Route path="report" element={<HairdresserReport />} />
                 </Route>
             )}
+
+            {/* ======================== */}
+            {/* === ریدایرکت‌های هوشمند === */}
+            {/* ======================== */}
+            {/* اگر کاربر مستقیماً برود به /admin یا /user، صبر کنه تا وضعیت مشخص بشه */}
+            <Route path="/user/*" element={user ? <Navigate to="/user" replace /> : <Navigate to="/auth-layout" replace />} />
+            <Route path="/admin/*" element={user ? <Navigate to="/admin" replace /> : <Navigate to="/auth-layout" replace />} />
+            <Route path="/hairdresser/*" element={user ? <Navigate to="/hairdresser" replace /> : <Navigate to="/auth-layout" replace />} />
 
             {/* ======================== */}
             {/* === صفحات خطا === */}

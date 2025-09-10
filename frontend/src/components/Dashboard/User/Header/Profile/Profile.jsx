@@ -5,14 +5,20 @@ const UserProfile = () => {
     const [userData, setUserData] = useState({
         fullName: "",
         phone: "",
-        email: "",
         joined: "",
         avatar: "",
     });
+
+    // ✅ ذخیره اطلاعات اولیه برای مقایسه
+    const [originalUserData, setOriginalUserData] = useState({
+        fullName: "",
+        phone: "",
+    });
+
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // بارگذاری اطلاعات کاربر از سرور
+    // بارگذاری اطلاعات کاربر
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -25,20 +31,24 @@ const UserProfile = () => {
                     const data = await response.json();
                     const user = data.user;
 
-                    // فرض می‌کنیم نام کامل همون name باشه، و email نداریم
-                    setUserData({
+                    const initialData = {
                         fullName: user.name || "کاربر",
                         phone: user.phone || "",
-                        email: `${user.phone}@example.com`, // اختیاری
-                        joined: new Date(user.createdAt || Date.now()).toLocaleDateString("fa-IR", {
+                        joined: new Date().toLocaleDateString("fa-IR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
                         }),
-                        avatar: "", // فعلاً بدون آواتار
+                        avatar: "",
+                    };
+
+                    setUserData(initialData);
+
+                    // ✅ ذخیره نسخه اولیه برای مقایسه بعدی
+                    setOriginalUserData({
+                        fullName: initialData.fullName,
+                        phone: initialData.phone,
                     });
-                } else {
-                    console.error("خطا در بارگذاری اطلاعات کاربر");
                 }
             } catch (err) {
                 console.error("خطا در ارتباط با سرور:", err);
@@ -56,20 +66,37 @@ const UserProfile = () => {
     };
 
     const handleSave = async () => {
+        // 🔍 مقایسه با نسخه اولیه
+        const updates = {};
+        if (userData.fullName !== originalUserData.fullName) {
+            updates.name = userData.fullName;
+        }
+        if (userData.phone !== originalUserData.phone) {
+            updates.phone = userData.phone;
+        }
+
+        // اگه هیچی تغییر نکرده، ذخیره نکن
+        if (Object.keys(updates).length === 0) {
+            alert("هیچ تغییری اعمال نشد");
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:5000/api/users/update", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({
-                    name: userData.fullName,
-                    phone: userData.phone,
-                }),
+                body: JSON.stringify(updates),
             });
 
             const result = await response.json();
 
             if (response.ok) {
+                // ✅ به‌روزرسانی نسخه اولیه بعد از موفقیت
+                setOriginalUserData({
+                    fullName: userData.fullName,
+                    phone: userData.phone,
+                });
                 setEditMode(false);
                 alert("اطلاعات با موفقیت بروزرسانی شد");
             } else {
@@ -91,13 +118,17 @@ const UserProfile = () => {
     };
 
     if (loading) {
-        return <div className="user-profile-container"><div className="loader">در حال بارگذاری...</div></div>;
+        return (
+            <div className="user-profile-container">
+                <div className="loader">در حال بارگذاری...</div>
+            </div>
+        );
     }
 
     return (
         <div className="user-profile-container">
             <div className="user-profile-card">
-                {/* بخش آواتار */}
+                {/* آواتار */}
                 <div className="avatar-section">
                     <div className="avatar-wrapper">
                         {userData.avatar ? (
@@ -135,7 +166,10 @@ const UserProfile = () => {
                             ) : (
                                 <span>{userData.fullName}</span>
                             )}
-                            <i className="fas fa-edit edit-icon" onClick={() => setEditMode(true)}></i>
+                            <i
+                                className="fas fa-edit edit-icon"
+                                onClick={() => setEditMode(true)}
+                            ></i>
                         </div>
                     </div>
 
@@ -152,24 +186,10 @@ const UserProfile = () => {
                             ) : (
                                 <span>{userData.phone}</span>
                             )}
-                            <i className="fas fa-edit edit-icon" onClick={() => setEditMode(true)}></i>
-                        </div>
-                    </div>
-
-                    <div className="field">
-                        <label>ایمیل:</label>
-                        <div className="field-wrapper">
-                            {editMode ? (
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={userData.email}
-                                    onChange={handleChange}
-                                />
-                            ) : (
-                                <span>{userData.email}</span>
-                            )}
-                            <i className="fas fa-edit edit-icon" onClick={() => setEditMode(true)}></i>
+                            <i
+                                className="fas fa-edit edit-icon"
+                                onClick={() => setEditMode(true)}
+                            ></i>
                         </div>
                     </div>
                 </div>
@@ -181,7 +201,10 @@ const UserProfile = () => {
                             <button className="btn save" onClick={handleSave}>
                                 <i className="fas fa-check"></i> ذخیره
                             </button>
-                            <button className="btn cancel" onClick={() => setEditMode(false)}>
+                            <button
+                                className="btn cancel"
+                                onClick={() => setEditMode(false)}
+                            >
                                 <i className="fas fa-times"></i> انصراف
                             </button>
                         </>
