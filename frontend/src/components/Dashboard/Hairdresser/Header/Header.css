@@ -1,0 +1,146 @@
+/* ====== هدر اصلی آرایشگر ====== */
+.hairdresser-header {
+    padding: 1.2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25);
+    background: rgba(10, 10, 10, 0.85);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+[data-theme="light"] .hairdresser-header {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+/* ====== منوی موبایل آرایشگر ====== */
+.hairdresser-mobile-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.hairdresser-mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hairdresser-mobile-content {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.98);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    padding: 1.5rem;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+[data-theme="light"] .hairdresser-mobile-content {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(184, 134, 11, 0.2);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.hairdresser-mobile-overlay.active .hairdresser-mobile-content {
+    right: 0;
+}
+
+/* هدر منوی موبایل */
+.hairdresser-mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.hairdresser-mobile-close {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.hairdresser-mobile-close:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: rotate(90deg);
+}
+
+/* آیتم‌های منوی موبایل */
+.hairdresser-mobile-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hairdresser-mobile-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hairdresser-mobile-link i {
+    min-width: 24px;
+    color: var(--gold-light);
+    font-size: 1.1rem;
+}
+
+.hairdresser-mobile-link:hover,
+.hairdresser-mobile-link.active {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+    transform: translateX(-6px);
+}
+
+.hairdresser-mobile-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    border-radius: 0 3px 3px 0;
+}
+
+.hairdresser-mobile-link:hover::before,
+.hairdresser-mobile-link.active::before {
+    transform: scaleX(1);
+}
+
+/* ====== کلاس‌های مشترک (بدون تغییر) ====== */
+/* لوگو، دکمه‌ها، ناوبری دسکتاپ و ... همون قبلی‌ها هستن */
+/* فقط اسم کلاس هدر و منوی موبایل عوض شد */

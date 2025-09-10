@@ -1,0 +1,243 @@
+/* src/components/Dashboard/Hairdresser/Pages/Clients/Clients.css */
+
+/* ====== صفحه اصلی مشتریان ====== */
+.hairdresser-clients-page {
+    padding: 4rem 2rem;
+    flex: 1;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+}
+
+[data-theme="light"] .hairdresser-clients-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+}
+
+/* ====== هدر صفحه ====== */
+.clients-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.clients-header h1 {
+    font-size: 2.2rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.clients-header p {
+    color: var(--silver);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* ====== شبکه مشتریان ====== */
+.clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 1fr);
+    gap: 1.8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ====== کارت مشتری ====== */
+.client-card {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.client-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* ====== آواتار مشتری ====== */
+.client-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 auto 0.8rem;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    background: rgba(212, 175, 55, 0.1);
+    flex-shrink: 0;
+}
+
+.client-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-avatar i {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.8rem;
+    background: rgba(30, 30, 30, 0.7);
+}
+
+/* ====== نام و اطلاعات ====== */
+.client-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.client-meta {
+    margin: 0.4rem 0;
+    color: var(--silver);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+}
+
+.client-service {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0.6rem 0 0.5rem;
+}
+
+/* ====== یادداشت شخصی ====== */
+.client-note {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-align: left;
+    word-break: break-word;
+}
+
+/* ====== دکمه‌های اقدام ====== */
+.client-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.btn {
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.btn-contact {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--text);
+}
+
+.btn-contact:hover {
+    background: rgba(212, 175, 55, 0.3);
+}
+
+.btn-appointment {
+    background: var(--gold);
+    color: var(--darker);
+}
+
+.btn-appointment:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+/* ====== ریسپانسیو ====== */
+
+@media (max-width: 768px) {
+    .hairdresser-clients-page {
+        padding: 3rem 1.5rem;
+    }
+
+    .clients-header h1 {
+        font-size: 2rem;
+    }
+
+    .clients-grid {
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .hairdresser-clients-page {
+        padding: 2rem 1rem;
+    }
+
+    .clients-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .clients-header p {
+        font-size: 1rem;
+    }
+
+    .clients-grid {
+        gap: 1.3rem;
+    }
+
+    .client-card {
+        padding: 1.3rem;
+    }
+
+    .client-meta,
+    .client-service,
+    .client-note {
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.7rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hairdresser-clients-page {
+        padding: 1.5rem 0.8rem;
+    }
+
+    .clients-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .clients-grid {
+        gap: 1.2rem;
+    }
+
+    .client-card {
+        padding: 1.1rem;
+    }
+
+    .client-meta {
+        font-size: 0.8rem;
+    }
+
+    .btn {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+    }
+}

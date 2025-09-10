@@ -1,0 +1,14 @@
+/* src/components/Content.css */
+.content {
+    padding: 1.5rem;
+    min-height: calc(100vh - 80px);
+    /* 80px فرضی هدر+فوتر */
+    background-color: #f5f5f5;
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+}

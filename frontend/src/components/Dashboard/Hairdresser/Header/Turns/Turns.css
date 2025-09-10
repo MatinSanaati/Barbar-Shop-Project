@@ -1,0 +1,518 @@
+/* src/components/Dashboard/Hairdresser/Pages/Appointments/Appointments.css */
+
+.hairdresser-appointments-page {
+    padding: 4rem 2rem;
+    flex: 1;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    color: var(--text);
+}
+
+[data-theme="light"] .hairdresser-appointments-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    color: #333;
+}
+
+/* هدر */
+.appointments-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.appointments-header h1 {
+    font-size: 2.2rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.appointments-header p {
+    color: var(--silver);
+    font-size: 1.1rem;
+}
+
+/* لیست نوبت‌ها */
+.appointments-list {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* حالت خالی */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--silver);
+    font-size: 1.1rem;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: rgba(212, 175, 55, 0.3);
+    margin-bottom: 1rem;
+}
+
+/* کارت نوبت */
+.appointment-card {
+    display: grid;
+    grid-template-columns: 200px 1fr 220px;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 14px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.2rem;
+}
+
+.appointment-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* بخش مشتری */
+.client-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.client-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.2rem;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.client-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-details h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--gold);
+}
+
+.client-phone {
+    margin: 0.2rem 0 0 0;
+    font-size: 0.9rem;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* اطلاعات نوبت */
+.appointment-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--silver);
+}
+
+.detail-item i {
+    color: var(--gold-light);
+    font-size: 0.9rem;
+}
+
+.detail-item.note {
+    color: #f39c12;
+}
+
+.detail-item.note i {
+    color: #f39c12;
+}
+
+/* اقدامات */
+.appointment-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-end;
+}
+
+.status-badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255, 193, 7, 0.2);
+    color: #f39c12;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.btn {
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.btn-confirm {
+    background: var(--gold);
+    color: var(--darker);
+}
+
+.btn-confirm:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+.btn-cancel:hover {
+    background: rgba(231, 76, 60, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-contact {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--text);
+}
+
+.btn-contact:hover {
+    background: rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ریسپانسیو */
+/* ریسپانسیو بهینه — از 1200px تا 100px */
+@media (max-width: 1200px) {
+    .hairdresser-appointments-page {
+        padding: 3.5rem 1.5rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 2.1rem;
+    }
+
+    .appointment-card {
+        padding: 1.3rem;
+        gap: 1.2rem;
+    }
+
+    .detail-item {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.8rem;
+    }
+}
+
+@media (max-width: 970px) {
+    .appointment-card {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .client-section {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+
+    .client-details h3 {
+        font-size: 1rem;
+    }
+
+    .client-phone {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .appointment-card {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.1rem;
+        flex-direction: column;
+    }
+
+    .client-section {
+        grid-column: unset;
+    }
+
+    .appointment-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+    }
+
+    .action-buttons {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .status-badge {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.7rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hairdresser-appointments-page {
+        padding: 2rem 1rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .appointments-header p {
+        font-size: 1rem;
+    }
+
+    .appointment-card {
+        margin-bottom: 1rem;
+    }
+
+    .client-avatar {
+        width: 45px;
+        height: 45px;
+    }
+
+    .client-details h3 {
+        font-size: 1rem;
+    }
+
+    .client-phone {
+        font-size: 0.8rem;
+    }
+
+    .detail-item {
+        font-size: 0.85rem;
+        gap: 0.5rem;
+    }
+
+    .btn {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+        min-width: auto;
+    }
+
+    .btn i {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hairdresser-appointments-page {
+        padding: 1.5rem 0.8rem;
+    }
+
+    .appointments-header {
+        margin-bottom: 2rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .appointment-card {
+        padding: 1rem;
+        gap: 0.8rem;
+    }
+
+    .client-details h3 {
+        font-size: 0.95rem;
+    }
+
+    .client-phone {
+        font-size: 0.75rem;
+    }
+
+    .detail-item {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .hairdresser-appointments-page {
+        padding: 1.2rem 0.6rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .appointment-card {
+        padding: 0.9rem;
+        gap: 0.7rem;
+    }
+
+    .client-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .client-details h3 {
+        font-size: 0.9rem;
+    }
+
+    .client-phone {
+        font-size: 0.7rem;
+    }
+
+    .detail-item {
+        font-size: 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .btn {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+    }
+
+    .btn i {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* برای دستگاه‌های بسیار کوچیک (مثل ساعت هوشمند یا تلفن قدیمی) */
+@media (max-width: 250px) {
+    .hairdresser-appointments-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .appointments-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .appointments-header p {
+        font-size: 0.9rem;
+    }
+
+    .appointment-card {
+        padding: 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .client-avatar {
+        width: 35px;
+        height: 35px;
+    }
+
+    .client-details h3 {
+        font-size: 0.85rem;
+    }
+
+    .client-phone {
+        font-size: 0.65rem;
+    }
+
+    .detail-item {
+        font-size: 0.7rem;
+        gap: 0.3rem;
+    }
+
+    .btn {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.4rem;
+    }
+
+    .status-badge {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+/* برای دستگاه‌های با عرض زیر 150px (نمونه نادر — اما برای آینده) */
+@media (max-width: 150px) {
+    .hairdresser-appointments-page {
+        padding: 0.8rem 0.4rem;
+    }
+
+    .appointments-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .appointments-header p {
+        font-size: 0.8rem;
+    }
+
+    .appointment-card {
+        padding: 0.6rem;
+        gap: 0.5rem;
+    }
+
+    .client-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    .client-details h3 {
+        font-size: 0.75rem;
+    }
+
+    .client-phone {
+        font-size: 0.6rem;
+    }
+
+    .detail-item {
+        font-size: 0.65rem;
+        gap: 0.3rem;
+    }
+
+    .btn {
+        font-size: 0.6rem;
+        padding: 0.25rem 0.35rem;
+    }
+
+    .status-badge {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.35rem;
+    }
+}

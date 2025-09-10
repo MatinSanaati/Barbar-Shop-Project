@@ -1,0 +1,121 @@
+.auth-layout {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* پس‌زمینه — عکس آرایشگاه حرفه‌ای */
+.auth-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat;
+    filter: brightness(0.6) contrast(1.1);
+    z-index: -1;
+}
+
+/* قسمت فرم — کاملاً وسط صفحه */
+.auth-form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* باکس فرم — حرفه‌ای و تمیز */
+.auth-form-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.6s ease-out;
+    /* انیمیشن شناور */
+    animation-name: fadeInUp, float;
+    animation-duration: 0.6s, 6s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    animation-fill-mode: both;
+    will-change: transform;
+}
+
+/* انیمیشن ورود */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* انیمیشن شناور (بالا و پایین ملایم) */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* متن و لوگو داخل فرم */
+.auth-form-card .logo {
+    text-align: center;
+    margin: 2rem 0 1.5rem;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.auth-form-card .logo i {
+    color: #d4af37;
+    margin-left: 8px;
+}
+
+.auth-form-card .logo-text {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ریسپانسیو — برای موبایل */
+@media (max-width: 480px) {
+    .auth-form-card {
+        max-width: 95%;
+        border-radius: 12px;
+    }
+
+    .auth-form-card .logo {
+        font-size: 1.6rem;
+    }
+}
+
+/* تم روشن — اختیاری */
+[data-theme="light"] .auth-background {
+    filter: brightness(0.8);
+}
+
+[data-theme="light"] .auth-form-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ddd;
+    color: #212529;
+}
+
+[data-theme="light"] .auth-form-card .logo {
+    color: #1a1a1a;
+}

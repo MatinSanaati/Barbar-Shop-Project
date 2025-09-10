@@ -1,0 +1,116 @@
+/* src/components/Admin/styles/admin/MainAdmin.css */
+
+.main-admin {
+    padding: 4rem 2rem;
+    flex: 1;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    position: relative;
+}
+
+/* تم روشن */
+[data-theme="light"] .main-admin {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.main-admin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 25%);
+    z-index: -1;
+}
+
+[data-theme="light"] .main-admin::before {
+    background:
+        radial-gradient(circle at 20% 30%, rgba(184, 134, 11, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(184, 134, 11, 0.05) 0%, transparent 25%);
+}
+
+/* هدر */
+.main-admin-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.main-admin-header h1 {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to left, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-admin-header p {
+    color: var(--silver);
+    font-size: 1.1rem;
+}
+
+/* گرید */
+.main-admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ریسپانسیو */
+@media (max-width: 992px) {
+    .main-admin {
+        padding: 3rem 1.5rem;
+    }
+
+    .main-admin-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .main-admin-header p {
+        font-size: 1rem;
+    }
+
+    .main-admin-grid {
+        gap: 1.5rem;
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-admin {
+        padding: 2.5rem 1rem;
+    }
+
+    .main-admin-header h1 {
+        font-size: 2rem;
+    }
+
+    .main-admin-header p {
+        font-size: 0.95rem;
+    }
+
+    .main-admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-admin {
+        padding: 2rem 1rem;
+    }
+
+    .main-admin-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .main-admin-header p {
+        font-size: 0.9rem;
+    }
+}

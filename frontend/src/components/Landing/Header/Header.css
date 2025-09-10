@@ -1,0 +1,379 @@
+/* ====== تنظیمات عمومی ====== */
+:root {
+    --gold: #d4af37;
+    --gold-light: #f4d06f;
+    --dark-bg: #1e1e1e;
+    --light-bg: #f8f9fa;
+    --text-dark: #fff;
+    --text-light: #212529;
+    --transition: all 0.3s ease;
+}
+
+[data-theme="light"] {
+    --bg: var(--light-bg);
+    --text: var(--text-light);
+    --border: rgba(184, 134, 11, 0.2);
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg: var(--dark-bg);
+    --text: var(--text-dark);
+    --border: rgba(212, 175, 55, 0.2);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ====== هدر اصلی ====== */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+}
+
+/* ====== لوگو ====== */
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.logo-icon {
+    font-size: 1.4rem;
+}
+
+.logo-text {
+    font-size: 1.1rem;
+}
+
+/* ====== ناوبری دسکتاپ ====== */
+.desktop-nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+/* ====== دکمه‌ها ====== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* دکمه تم */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0px 1px 1px 1px rgba(212, 175, 55, 0.215);
+    transition: var(--transition);
+}
+
+.theme-toggle:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: rotate(15deg);
+}
+
+.theme-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* آواتار پروفایل */
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar {
+    background-color: var(--gold);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.1);
+}
+
+.user-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* منوی پروفایل */
+.profile-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: var(--bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    min-width: 200px;
+    list-style: none;
+    padding: 0.5rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+
+.profile-menu:hover .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-dropdown li a,
+.profile-dropdown li .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: right;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+
+
+.profile-dropdown i {
+    min-width: 20px;
+    color: var(--gold-light);
+}
+
+/* ====== دکمه منوی موبایل ====== */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+/* ====== منوی موبایل ====== */
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.mobile-menu {
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.mobile-overlay.active .mobile-menu {
+    transform: translateX(0);
+}
+
+.mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.mobile-close {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.mobile-items {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-items a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.mobile-items a:hover,
+.mobile-items a.active {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+/* ========================= */
+/* ====== ریسپانسیو ====== */
+/* ========================= */
+
+/* دسکتاپ بزرگ */
+@media (min-width: 1200px) {
+    .header-container {
+        max-width: 1400px;
+    }
+}
+
+/* تبلت */
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .header-actions {
+        gap: 0.8rem;
+    }
+
+    .theme-icon {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .profile-dropdown {
+        min-width: 180px;
+    }
+
+    .profile-dropdown li a,
+    .profile-dropdown li .logout-btn {
+        font-size: 0.9rem;
+        padding: 0.45rem 0.9rem;
+    }
+}
+
+/* موبایل کوچک */
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0 0.5rem;
+    }
+
+    .mobile-menu {
+        width: 90%;
+    }
+
+    .mobile-logo span {
+        font-size: 0.95rem;
+    }
+
+    .profile-dropdown {
+        min-width: 160px;
+        top: 45px;
+    }
+
+    .profile-dropdown li a,
+    .profile-dropdown li .logout-btn {
+        font-size: 0.85rem;
+        gap: 0.6rem;
+    }
+}
+
+/* موبایل بسیار کوچک */
+@media (max-width: 320px) {
+    .mobile-menu {
+        width: 100%;
+    }
+
+    .profile-dropdown {
+        min-width: 150px;
+        right: -10px;
+    }
+
+    .profile-dropdown li a,
+    .profile-dropdown li .logout-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+}

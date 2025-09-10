@@ -1,0 +1,116 @@
+/* Footer */
+.main-footer {
+    background: var(--darker);
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    margin-top: var(--spacing-xl);
+}
+
+[data-theme="light"] .main-footer {
+    background: #ffffff;
+    border-top: 1px solid rgba(184, 134, 11, 0.1);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.footer-title {
+    font-size: 1.5rem;
+    display: flex;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-bottom: 0.5rem;
+    color: var(--gold);
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+}
+
+[data-theme="light"] .footer-title::after {
+    background: var(--gold);
+}
+
+.footer-description {
+    color: var(--silver);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+
+.footer-links li {
+    color: var(--silver);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0;
+}
+
+.footer-links li a:hover {
+    color: var(--gold);
+    padding-right: 0.3125rem;
+}
+
+.footer-links li a i {
+    color: var(--gold);
+    min-width: 1.2rem;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+    transition: var(--transition);
+    font-size: 1.3rem;
+}
+
+[data-theme="light"] .social-links a {
+    background: rgba(184, 134, 11, 0.1);
+}
+
+.social-links a:hover {
+    background: var(--gold);
+    color: var(--darker);
+    transform: translateY(-5px);
+}
+
+[data-theme="light"] .social-links a:hover {
+    background: var(--gold);
+    color: var(--darker);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--silver);
+    font-size: 0.9rem;
+}
+
+[data-theme="light"] .copyright {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    color: #666666;
+}

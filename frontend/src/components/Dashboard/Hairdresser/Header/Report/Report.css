@@ -1,0 +1,375 @@
+/* src/components/Dashboard/Hairdresser/Pages/Reports/Reports.css */
+
+.hairdresser-reports-page {
+    padding: 4rem 2rem;
+    flex: 1;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    color: var(--text);
+}
+
+[data-theme="light"] .hairdresser-reports-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    color: #333;
+}
+
+/* هدر */
+.reports-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.reports-header h1 {
+    font-size: 2.2rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.reports-header p {
+    color: var(--silver);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* فیلتر بازه زمانی */
+.report-filters {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.period-selector {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(30, 30, 30, 0.5);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .period-selector {
+    background: #ffffff;
+    border: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+/* آمار کلی */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.8rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.stat-card {
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    padding: 1.8rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.stat-card h2 {
+    font-size: 2.2rem;
+    color: var(--gold);
+    margin: 0 0 0.5rem 0;
+}
+
+.stat-card p {
+    color: var(--silver);
+    margin: 0 0 0.6rem 0;
+    font-size: 1rem;
+}
+
+.trend {
+    font-size: 0.85rem;
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.trend.warning {
+    color: #e74c3c;
+}
+
+/* بخش نمودار خدمات پرفروش */
+.chart-section {
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    padding: 0 1rem;
+}
+
+.chart-section h3 {
+    text-align: center;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+}
+
+.service-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.service-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--silver);
+}
+
+.service-name {
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.service-revenue {
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin-top: 0.3rem;
+}
+
+.bar-container {
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.6s ease;
+}
+
+/* مشتریان وفادار */
+.loyal-clients-section {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    padding: 0 1rem;
+}
+
+.loyal-clients-section h3 {
+    text-align: center;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+}
+
+.loyal-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.loyal-count,
+.top-client {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.loyal-count h4,
+.top-client h4 {
+    color: var(--gold);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+}
+
+.loyal-count p,
+.top-client p {
+    color: var(--silver);
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* دکمه خروجی */
+.report-actions {
+    text-align: center;
+    margin: 3rem 0 2rem;
+}
+
+.btn-export {
+    background: var(--gold);
+    color: var(--darker);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-export:hover {
+    background: var(--gold-light);
+    transform: translateY(-3px);
+}
+
+/* ریسپانسیو — از 1200px تا 100px */
+
+@media (max-width: 1200px) {
+    .hairdresser-reports-page {
+        padding: 3.5rem 1.5rem;
+    }
+
+    .stats-grid {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .service-bars {
+        gap: 0.8rem;
+    }
+
+    .service-info {
+        font-size: 0.9rem;
+    }
+
+    .bar-container {
+        height: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hairdresser-reports-page {
+        padding: 3rem 1rem;
+    }
+
+    .reports-header h1 {
+        font-size: 2rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .loyal-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .hairdresser-reports-page {
+        padding: 2.5rem 0.8rem;
+    }
+
+    .reports-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .report-filters {
+        margin-bottom: 2rem;
+    }
+
+    .period-selector {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .stat-card {
+        padding: 1.5rem 1.2rem;
+    }
+
+    .stat-card h2 {
+        font-size: 1.9rem;
+    }
+
+    .chart-section h3,
+    .loyal-clients-section h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hairdresser-reports-page {
+        padding: 2rem 0.6rem;
+    }
+
+    .reports-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .stat-card h2 {
+        font-size: 1.7rem;
+    }
+
+    .btn-export {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .hairdresser-reports-page {
+        padding: 1.8rem 0.5rem;
+    }
+
+    .reports-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .stat-card {
+        padding: 1.3rem 1rem;
+    }
+
+    .stat-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .stat-card p {
+        font-size: 0.95rem;
+    }
+
+    .btn-export {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+@media (max-width: 250px) {
+    .hairdresser-reports-page {
+        padding: 1.5rem 0.4rem;
+    }
+
+    .reports-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .stat-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .stat-card p {
+        font-size: 0.85rem;
+    }
+
+    .btn-export {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+}

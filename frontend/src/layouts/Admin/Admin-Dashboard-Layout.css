@@ -1,0 +1,27 @@
+/* src/layouts/DefaultLayout.css */
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+    direction: rtl;
+    /* برای داشبورد فارسی */
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: margin-right 0.3s ease;
+}
+
+/* وقتی سایدبار بازه، محتوا کمی جا باز می‌کنه */
+.main-content.sidebar-open {
+    margin-right: 280px;
+}
+
+/* ریسپانسیو موبایل: سایدبار روی محتوا میفته */
+@media (max-width: 992px) {
+    .main-content.sidebar-open {
+        margin-right: 0;
+    }
+}
