@@ -53,6 +53,7 @@ const AppRoutes = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // بارگذاری اطلاعات کاربر
     useEffect(() => {
         fetch("http://localhost:5000/api/users/me", {
             method: "GET",
@@ -64,29 +65,80 @@ const AppRoutes = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    // در حال بارگذاری
     if (loading) {
-        return <div style={{ textAlign: 'center', padding: '50px' }}>در حال بارگذاری...</div>;
+        return (
+            <div style={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#f5f5f5',
+                color: '#333',
+                fontSize: '18px'
+            }}>
+                در حال بارگذاری اطلاعات کاربر...
+            </div>
+        );
     }
 
     return (
         <Routes>
             {/* ====================== */}
-            {/* === صفحات لندینگ === */}
+            {/* === صفحات عمومی و لندینگ === */}
             {/* ====================== */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/taking-turns" element={<TakingturnsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/help" element={<HelpPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/" element={
+                user ? (
+                    <Navigate
+                        to={user.role === 'admin' ? '/admin' :
+                            user.role === 'hairdresser' ? '/hairdresser' : '/user'}
+                        replace
+                    />
+                ) : (
+                    <LandingPage />
+                )
+            } />
+
+            <Route path="/services" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <ServicesPage />
+            } />
+            <Route path="/about" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <AboutPage />
+            } />
+            <Route path="/taking-turns" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <TakingturnsPage />
+            } />
+            <Route path="/contact" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <ContactPage />
+            } />
+            <Route path="/blog" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <BlogPage />
+            } />
+            <Route path="/help" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <HelpPage />
+            } />
+            <Route path="/gallery" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <GalleryPage />
+            } />
+            <Route path="/privacy-policy" element={
+                user ? <Navigate to={`/${user.role}`} replace /> : <PrivacyPolicyPage />
+            } />
 
             {/* ======================== */}
             {/* === صفحه احراز هویت === */}
             {/* ======================== */}
-            <Route path="/auth-layout" element={<AuthLayoutPage />} />
+            <Route path="/auth-layout" element={
+                user ? (
+                    <Navigate
+                        to={user.role === 'admin' ? '/admin' :
+                            user.role === 'hairdresser' ? '/hairdresser' : '/user'}
+                        replace
+                    />
+                ) : (
+                    <AuthLayoutPage />
+                )
+            } />
 
             {/* ======================== */}
             {/* === داشبورد کاربر === */}
@@ -141,10 +193,10 @@ const AppRoutes = () => {
             {/* ======================== */}
             {/* === ریدایرکت‌های هوشمند === */}
             {/* ======================== */}
-            {/* اگر کاربر مستقیماً برود به /admin یا /user، صبر کنه تا وضعیت مشخص بشه */}
-            <Route path="/user/*" element={user ? <Navigate to="/user" replace /> : <Navigate to="/auth-layout" replace />} />
-            <Route path="/admin/*" element={user ? <Navigate to="/admin" replace /> : <Navigate to="/auth-layout" replace />} />
-            <Route path="/hairdresser/*" element={user ? <Navigate to="/hairdresser" replace /> : <Navigate to="/auth-layout" replace />} />
+            {/* اگر کاربر مستقیماً برود به /admin یا /user، اما وارد نشده باشه */}
+            <Route path="/user/*" element={<Navigate to="/auth-layout" replace />} />
+            <Route path="/admin/*" element={<Navigate to="/auth-layout" replace />} />
+            <Route path="/hairdresser/*" element={<Navigate to="/auth-layout" replace />} />
 
             {/* ======================== */}
             {/* === صفحات خطا === */}

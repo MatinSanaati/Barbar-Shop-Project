@@ -15,12 +15,12 @@ const Header = ({ theme, toggleTheme }) => {
     const isActive = (path) => location.pathname === path;
 
     const menuItems = [
-        { path: "/user/services", icon: "fas fa-concierge-bell", label: "خدمات" },
-        { path: "/user/about", icon: "fas fa-info-circle", label: "درباره من" },
-        { path: "/user/takingturns", icon: "fas fa-calendar-check", label: "نوبت‌دهی" },
-        { path: "/user/contact", icon: "fas fa-phone", label: "تماس با من" },
-        { path: "/user/blog", icon: "fas fa-blog", label: "بلاگ" },
-        { path: "/user/help", icon: "fas fa-question-circle", label: "راهنما" },
+        { path: "/services", icon: "fas fa-concierge-bell", label: "خدمات" },
+        { path: "/about", icon: "fas fa-info-circle", label: "درباره من" },
+        { path: "/taking-turns", icon: "fas fa-calendar-check", label: "نوبت‌ دهی" },
+        { path: "/contact", icon: "fas fa-phone", label: "تماس با من" },
+        { path: "/blog", icon: "fas fa-blog", label: "بلاگ" },
+        { path: "/help", icon: "fas fa-question-circle", label: "راهنما" },
     ];
 
     const handleLogout = async () => {
@@ -51,7 +51,7 @@ const Header = ({ theme, toggleTheme }) => {
 
                     {/* لوگو */}
                     <div className="logo">
-                        <Link to="/user">
+                        <Link to="/">
                             <i className="fas fa-cut logo-icon"></i>
                             <span className="logo-text">آرایشگاه مردانه</span>
                         </Link>
@@ -85,12 +85,12 @@ const Header = ({ theme, toggleTheme }) => {
                             {/* منوی پروفایل */}
                             <ul className="profile-dropdown">
                                 <li>
-                                    <Link to="/user/profile">
+                                    <Link to="/">
                                         <i className="fas fa-user"></i> پروفایل من
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/user/settings">
+                                    <Link to="/">
                                         <i className="fas fa-cog"></i> تنظیمات
                                     </Link>
                                 </li>
