@@ -1,0 +1,15 @@
+.sun-icon {
+    fill: currentColor;
+    stroke: currentColor;
+    transition: fill 0.3s ease, transform 0.3s ease, stroke 0.3s ease;
+    display: inline-block;
+}
+
+.sun-icon:hover {
+    transform: rotate(15deg);
+}
+
+.sun-icon:focus,
+.sun-icon:active {
+    outline: none;
+}

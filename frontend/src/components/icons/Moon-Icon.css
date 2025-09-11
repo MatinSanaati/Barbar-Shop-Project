@@ -1,0 +1,15 @@
+.moon-icon {
+    fill: currentColor;
+    stroke: currentColor;
+    transition: fill 0.3s ease, transform 0.3s ease, stroke 0.3s ease;
+    display: inline-block;
+}
+
+.moon-icon:hover {
+    transform: rotate(-10deg);
+}
+
+.moon-icon:focus,
+.moon-icon:active {
+    outline: none;
+}

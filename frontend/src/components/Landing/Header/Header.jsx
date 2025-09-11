@@ -1,158 +1,131 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import sunIcon from "../../../assets/icons/sun.svg";
-import moonIcon from "../../../assets/icons/moon.svg";
-import userLogin from '../../../assets/icons/user-login.svg';
+import UserIcon from "../../icons/User-Icon";
+import SunIcon from "../../icons/Sun-Icon";
+import MoonIcon from "../../icons/Moon-Icon";
 
 import "./Header.css";
 
 const Header = ({ theme, toggleTheme }) => {
-    const location = useLocation();
-    const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
-    const isActive = (path) => location.pathname === path;
-
+    // آیتم‌های منو
     const menuItems = [
-        { path: "/services", icon: "fas fa-concierge-bell", label: "خدمات" },
-        { path: "/about", icon: "fas fa-info-circle", label: "درباره من" },
-        { path: "/taking-turns", icon: "fas fa-calendar-check", label: "نوبت‌ دهی" },
-        { path: "/contact", icon: "fas fa-phone", label: "تماس با من" },
-        { path: "/blog", icon: "fas fa-blog", label: "بلاگ" },
-        { path: "/help", icon: "fas fa-question-circle", label: "راهنما" },
+        { path: "/services", label: "خدمات" },
+        { path: "/about", label: "درباره ما" },
+        { path: "/taking-turns", label: "نوبت‌دهی" },
+        { path: "/contact", label: "تماس با ما" },
+        { path: "/blog", label: "بلاگ" },
+        { path: "/help", label: "راهنما" },
+        { path: "/gallery", label: "گالری" },
     ];
-
-    const handleLogout = async () => {
-        try {
-            await fetch("http://localhost:5000/api/users/logout", {
-                method: "POST",
-                credentials: "include"
-            });
-            navigate("/");
-            window.location.reload();
-        } catch (err) {
-            console.error("خطا در خروج:", err);
-        }
-    };
 
     return (
         <>
+            {/* ========== هدر اصلی ========== */}
             <header className="main-header">
-                <div className="header-container">
+                <div className="container">
+
                     {/* دکمه منوی موبایل */}
                     <button
-                        className="mobile-menu-btn"
+                        className="mobile-toggle"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="باز کردن منو"
+                        aria-label={mobileMenuOpen ? "بستن منو" : "باز کردن منو"}
                     >
-                        <i className="fas fa-bars"></i>
+                        <i className={mobileMenuOpen ? "fas fa-times" : "fas fa-bars"}></i>
                     </button>
 
                     {/* لوگو */}
-                    <div className="logo">
-                        <Link to="/">
-                            <i className="fas fa-cut logo-icon"></i>
-                            <span className="logo-text">آرایشگاه مردانه</span>
-                        </Link>
-                    </div>
+                    <Link to="/" className="logo">
+                        <i className="fas fa-cut"></i>
+                        <span>آرایشگاه مردانه</span>
+                    </Link>
 
                     {/* ناوبری دسکتاپ */}
                     <nav className="desktop-nav">
                         <ul>
-                            {menuItems.map(({ path, icon, label }) => (
-                                <li key={path}>
-                                    <Link
-                                        to={path}
-                                        className={isActive(path) ? "nav-link active" : "nav-link"}
-                                    >
-                                        <i className={icon}></i> {label}
+                            {menuItems.map((item) => (
+                                <li key={item.path}>
+                                    <Link to={item.path} className="nav-link">
+                                        {item.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </nav>
 
-                    {/* دکمه‌ها: تم و پروفایل */}
+                    {/* دکمه‌های عملیاتی: تم و پروفایل */}
                     <div className="header-actions">
 
-                        {/* آواتار پروفایل */}
-                        <div className="profile-menu">
-                            <button className="profile-avatar" aria-haspopup="true">
-                                <img src={userLogin} alt="پروفایل کاربر" className="user-icon" />
-                            </button>
-
-                            {/* منوی پروفایل */}
-                            <ul className="profile-dropdown">
-                                <li>
-                                    <Link to="/">
-                                        <i className="fas fa-user"></i> پروفایل من
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/">
-                                        <i className="fas fa-cog"></i> تنظیمات
-                                    </Link>
-                                </li>
-                                <li>
-                                    <button onClick={handleLogout} className="logout-btn">
-                                        <i className="fas fa-sign-out-alt"></i> خروج
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                        {/* آواتار کاربر */}
+                        <Link to="/auth-layout" className="profile-avatar-link" aria-label="ورود به حساب کاربری">
+                            <UserIcon className="user-icon-svg" size={36} />
+                        </Link>
 
                         {/* دکمه تم */}
-                        <button
-                            className="theme-toggle"
-                            onClick={toggleTheme}
-                            aria-label="تغییر تم"
-                        >
-                            <img
-                                src={theme === "dark" ? sunIcon : moonIcon}
-                                alt={theme === "dark" ? "روشن" : "تاریک"}
-                                className="theme-icon"
-                            />
+                        <button className="theme-btn" onClick={toggleTheme} aria-label="تغییر تم">
+                            {theme === "dark" ? (
+                                <SunIcon className="theme-icon" size={24} />
+                            ) : (
+                                <MoonIcon className="theme-icon" size={24} />
+                            )}
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* منوی موبایل */}
-            <div
-                className={`mobile-overlay ${mobileMenuOpen ? "active" : ""}`}
-                onClick={() => setMobileMenuOpen(false)}
-            >
-                <div
-                    className="mobile-menu"
-                    onClick={(e) => e.stopPropagation()}
-                >
+            {/* ========== منوی موبایل (Overlay) ========== */}
+            <div className={`mobile-menu-overlay ${mobileMenuOpen ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
+                <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
                     <div className="mobile-header">
-                        <Link to="/" className="mobile-logo">
+                        <Link to="/" className="mobile-logo" onClick={() => setMobileMenuOpen(false)}>
                             <i className="fas fa-cut"></i>
                             <span>آرایشگاه مردانه</span>
                         </Link>
                         <button
-                            className="mobile-close"
+                            className="close-btn"
                             onClick={() => setMobileMenuOpen(false)}
+                            aria-label="بستن منو"
                         >
                             <i className="fas fa-times"></i>
                         </button>
                     </div>
 
-                    <ul className="mobile-items">
-                        {menuItems.map(({ path, icon, label }) => (
-                            <li key={path}>
+                    <ul className="mobile-nav-list">
+                        {menuItems.map((item) => (
+                            <li key={item.path}>
                                 <Link
-                                    to={path}
+                                    to={item.path}
+                                    className="mobile-nav-link"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={isActive(path) ? "active" : ""}
                                 >
-                                    <i className={icon}></i> {label}
+                                    {item.label}
                                 </Link>
                             </li>
                         ))}
                     </ul>
+
+                    <div className="mobile-footer">
+                        <button className="mobile-theme-btn" onClick={toggleTheme}>
+                            {theme === "dark" ? (
+                                <SunIcon className="theme-icon" size={24} />
+                            ) : (
+                                <MoonIcon className="theme-icon" size={24} />
+                            )}
+                            <span>{theme === "dark" ? "حالت روشن" : "حالت تاریک"}</span>
+                        </button>
+
+                        {/* <Link
+                            to="/auth-layout"
+                            className="mobile-login-btn"
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            <img src={userLogin} alt="ورود" className="login-icon" />
+                            ورود / ثبت‌نام
+                        </Link> */}
+                    </div>
                 </div>
             </div>
         </>
