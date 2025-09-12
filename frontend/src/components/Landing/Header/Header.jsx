@@ -106,26 +106,6 @@ const Header = ({ theme, toggleTheme }) => {
                             </li>
                         ))}
                     </ul>
-
-                    <div className="mobile-footer">
-                        <button className="mobile-theme-btn" onClick={toggleTheme}>
-                            {theme === "dark" ? (
-                                <SunIcon className="theme-icon" size={24} />
-                            ) : (
-                                <MoonIcon className="theme-icon" size={24} />
-                            )}
-                            <span>{theme === "dark" ? "حالت روشن" : "حالت تاریک"}</span>
-                        </button>
-
-                        {/* <Link
-                            to="/auth-layout"
-                            className="mobile-login-btn"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            <img src={userLogin} alt="ورود" className="login-icon" />
-                            ورود / ثبت‌نام
-                        </Link> */}
-                    </div>
                 </div>
             </div>
         </>
