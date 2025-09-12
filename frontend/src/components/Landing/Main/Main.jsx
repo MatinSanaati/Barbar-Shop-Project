@@ -1,171 +1,163 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import "./Main.css";
 
-const Main = ({
-    bookingForm,
-    contactForm,
-    handleBookingFormChange,
-    handleContactFormChange
-}) => {
-    const [animatedElements, setAnimatedElements] = useState([]);
-    const [services, setServices] = useState([]);
-    const [siteInfo, setSiteInfo] = useState({
-        hero: { title: "", description: "", image: "" },
-        about: { title: "", paragraphs: [], image: "" }
-    });
-
-    // Intersection Observer
+const Main = () => {
     useEffect(() => {
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-        const observerCallback = (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setAnimatedElements(prev => [...prev, entry.target.dataset.animationId]);
-                }
-            });
-        };
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        const elements = document.querySelectorAll('[data-animation-id]');
-        elements.forEach(el => observer.observe(el));
+        const sections = document.querySelectorAll(".fade-in-up, .slide-in");
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        sections.forEach((section) => observer.observe(section));
         return () => observer.disconnect();
     }, []);
 
-    const isAnimated = (id) => animatedElements.includes(id);
-
-    // 🔹 دریافت داده‌ها از سرور
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [servicesRes, infoRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/services').then(r => r.json()),
-                    fetch('http://localhost:5000/api/site-info').then(r => r.json())
-                ]);
-                setServices(servicesRes);
-                setSiteInfo(infoRes);
-            } catch (err) {
-                console.error('❌ خطای بارگذاری داده:', err);
-            }
-        };
-        fetchData();
-    }, []);
-
-    // اطلاعات تماس
-    const contactInfo = [
-        { icon: "fas fa-map-marker-alt", label: "آدرس", value: "تهران، خیابان ولیعصر، پلاک 1234" },
-        { icon: "fas fa-phone", label: "تلفن", value: "021-12345678" },
-        { icon: "fas fa-mobile-alt", label: "موبایل", value: "0912 345 6789" },
-        { icon: "fas fa-envelope", label: "ایمیل", value: "info@barbershop.ir" },
-        { icon: "fas fa-clock", label: "ساعات کاری", value: "شنبه تا چهارشنبه: 9 تا 21<br />پنجشنبه: 9 تا 18" }
+    const services = [
+        {
+            id: 1,
+            title: "Classic Haircut",
+            description: "Precision haircut tailored to your style.",
+            price: "From 350,000 Toman | 45 min",
+            image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1",
+            badge: "Popular",
+        },
+        {
+            id: 2,
+            title: "Beard Trim",
+            description: "Detailed beard shaping and grooming.",
+            price: "From 200,000 Toman | 30 min",
+            image: "https://images.unsplash.com/photo-1599351431408-269d027d3cfd",
+            badge: "New",
+        },
+        {
+            id: 3,
+            title: "Hair Coloring",
+            description: "Premium coloring with lasting results.",
+            price: "From 500,000 Toman | 60 min",
+            image: "https://images.unsplash.com/photo-1596466596120-2a8e4b5d2c4d",
+        },
     ];
 
     return (
-        <main className="main-content">
+        <main>
             {/* Hero Section */}
-            <section className="hero-section" data-animation-id="hero">
-                <div className="hero-container">
-                    <div className="hero-content">
-                        <div className={`hero-text ${isAnimated('hero') ? 'animate-fade-in-up' : ''}`}>
-                            <h1 className="hero-title">{siteInfo.hero.title}</h1>
-                            <p className="hero-description">{siteInfo.hero.description}</p>
-                            <div className="hero-buttons">
-                                <Link to="/taking-turns" className="btn btn-primary">
-                                    <i className="fas fa-calendar-alt"></i> رزرو نوبت
-                                </Link>
-                                <Link to="/services" className="btn btn-secondary">
-                                    <i className="fas fa-concierge-bell"></i> مشاهده خدمات
-                                </Link>
-                            </div>
-                        </div>
+            <section className="hero fade-in-up">
+                <div className="hero-overlay">
+                    <h1 className="hero-title">Barber Studio</h1>
+                    <p className="hero-subtitle">Precision Cuts & Classic Grooming</p>
+                    <div className="hero-buttons">
+                        <a href="#services" className="btn btn-gold">
+                            <i className="fas fa-cut"></i> Our Services
+                        </a>
+                        <a href="#contact" className="btn btn-outline">
+                            <i className="fas fa-calendar-alt"></i> Book Now
+                        </a>
                     </div>
                 </div>
-                <div className="hero-overlay"></div>
-                <div
-                    className="hero-decoration"
-                    style={{ backgroundImage: `url(${siteInfo.hero.image})` }}
-                ></div>
             </section>
 
             {/* Services Section */}
-            <section className="section services-section" data-animation-id="services">
-                <div className="section-container">
-                    <div className={`section-header ${isAnimated('services') ? 'animate-fade-in' : ''}`}>
-                        <h2 className="section-title">خدمات ما</h2>
-                        <p className="section-subtitle">مجموعه‌ای از خدمات تخصصی و حرفه‌ای در زمینه آرایش مردانه</p>
-                    </div>
-                    <div className="services-grid">
-                        {services.map((service, index) => (
-                            <div
-                                key={service.id}
-                                className={`service-card animate-fade-in-up delay-${index + 1}`}
-                                data-animation-id={`service-${service.id}`}
-                            >
-                                <div className="service-image">
-                                    <img src={service.image || '/images/services/default.jpg'} alt={service.title} loading="lazy" />
-                                    {service.badge && <div className={`service-badge ${service.badgeClass}`}>{service.badge}</div>}
-                                </div>
-                                <div className="service-content">
-                                    <h3 className="service-title">{service.title}</h3>
-                                    <p className="service-description">{service.description}</p>
-                                    <div className="service-meta">
-                                        <div className="service-price">از {service.price.toLocaleString()} تومان</div>
-                                        <div className="service-time"><i className="far fa-clock"></i> {service.duration} دقیقه</div>
-                                    </div>
-                                </div>
+            <section id="services" className="services fade-in-up">
+                <h2 className="section-title">Our Services</h2>
+                <p className="section-subtitle">Crafted with precision and care</p>
+                <div className="services-grid">
+                    {services.map((service, index) => (
+                        <div
+                            key={service.id}
+                            className={`service-card delay-${index + 1}`}
+                        >
+                            <div className="service-image">
+                                <img src={service.image} alt={service.title} />
+                                {service.badge && (
+                                    <span
+                                        className={`badge ${service.badge === "Popular" ? "popular" : "new"
+                                            }`}
+                                    >
+                                        {service.badge}
+                                    </span>
+                                )}
                             </div>
-                        ))}
-                    </div>
+                            <div className="service-content">
+                                <h3>{service.title}</h3>
+                                <p>{service.description}</p>
+                                <span className="service-meta">{service.price}</span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </section>
 
-            <section className="section about-section" data-animation-id="about">
-                <div className="section-container">
-                    <div className="about-content">
-                        <div className="about-text animate-fade-in-up delay-1" data-animation-id="about-text">
-                            <div className="section-header">
-                                <h2 className="section-title">{siteInfo.about.title}</h2>
-                            </div>
-                            {siteInfo.about.paragraphs.map((p, i) => (
-                                <p key={i} className="about-paragraph">{p}</p>
-                            ))}
-                        </div>
-                        <div className="about-image animate-fade-in-up delay-2" data-animation-id="about-image">
-                            <img src={siteInfo.about.image} alt="درباره ما" loading="lazy" />
-                        </div>
-                    </div>
+            {/* About Section */}
+            <section id="about" className="about slide-in">
+                <div className="about-text">
+                    <h2 className="section-title underline">About Us</h2>
+                    <p>
+                        Welcome to Barber Studio – a single-barber salon where tradition
+                        meets modern style.
+                    </p>
+                    <p>
+                        With years of experience and dedication, we provide precision cuts,
+                        refined grooming, and a tailored service that elevates your look.
+                    </p>
+                    <p>
+                        Our philosophy: every client deserves a luxury experience and
+                        confidence that lasts beyond the chair.
+                    </p>
+                </div>
+                <div className="about-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1593696140826-c58b021acf8b"
+                        alt="About Barber"
+                    />
                 </div>
             </section>
 
             {/* Contact Section */}
-            <section className="section contact-section" data-animation-id="contact">
-                <div className="section-container">
-                    <div className="contact-content">
-                        <div className="contact-info animate-fade-in-up delay-1" data-animation-id="contact-info">
-                            <div className="section-header">
-                                <h2 className="section-title">اطلاعات تماس</h2>
-                            </div>
-                            <ul className="contact-details">
-                                {contactInfo.map((info, index) => (
-                                    <li key={index} className="contact-item">
-                                        <div className="contact-icon-wrapper">
-                                            <i className={`fas ${info.icon} contact-icon`}></i>
-                                        </div>
-                                        <div className="contact-text">
-                                            <h3 className="contact-label">{info.label}</h3>
-                                            <p className="contact-value" dangerouslySetInnerHTML={{ __html: info.value }}></p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="social-links">
-                                <a href="#" aria-label="اینستاگرام" className="social-link"><i className="fab fa-instagram"></i></a>
-                                <a href="#" aria-label="تلگرام" className="social-link"><i className="fab fa-telegram"></i></a>
-                                <a href="#" aria-label="واتساپ" className="social-link"><i className="fab fa-whatsapp"></i></a>
-                                <a href="#" aria-label="فیسبوک" className="social-link"><i className="fab fa-facebook-f"></i></a>
-                            </div>
-                        </div>
-                        <div className="contact-form animate-fade-in-up delay-2" data-animation-id="contact-form">
-                        </div>
+            <section id="contact" className="contact fade-in-up">
+                <div className="contact-info">
+                    <h2 className="section-title">Contact Us</h2>
+                    <ul>
+                        <li>
+                            <i className="fas fa-map-marker-alt"></i> Tehran, Iran
+                        </li>
+                        <li>
+                            <i className="fas fa-phone-alt"></i> +98 912 123 4567
+                        </li>
+                        <li>
+                            <i className="fas fa-envelope"></i> barber@studio.com
+                        </li>
+                        <li>
+                            <i className="fas fa-clock"></i> Sat-Thu: 10:00 - 20:00
+                        </li>
+                    </ul>
+                    <div className="social-links">
+                        <a href="#">
+                            <i className="fab fa-instagram"></i>
+                        </a>
+                        <a href="#">
+                            <i className="fab fa-telegram-plane"></i>
+                        </a>
+                        <a href="#">
+                            <i className="fab fa-whatsapp"></i>
+                        </a>
                     </div>
+                </div>
+                <div className="contact-form">
+                    <form>
+                        <input type="text" placeholder="Name" required />
+                        <input type="tel" placeholder="Phone" required />
+                        <textarea placeholder="Message" required></textarea>
+                        <button type="submit" className="btn btn-gold">
+                            Send Message
+                        </button>
+                    </form>
                 </div>
             </section>
         </main>

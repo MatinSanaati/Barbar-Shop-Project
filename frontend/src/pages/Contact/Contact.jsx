@@ -1,104 +1,65 @@
+// src/pages/ContactPage.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../../components/Landing/Header/Header';
 import Footer from '../../components/Landing/Footer/Footer';
 import './Contact.css';
 
 const ContactPage = () => {
-  // States
-  const [theme, setTheme] = useState('dark');
-
+  // 🔹 State برای فرم تماس
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    subject: '',
+    phone: '',
     message: ''
   });
+  const [submitted, setSubmitted] = useState(false);
 
-  // State برای انیمیشن‌های اسکرول (مثل Main)
-  const [animatedElements, setAnimatedElements] = useState([]);
+  // 🔹 State برای مدیریت تم
+  const [theme, setTheme] = useState('dark');
 
-  // Intersection Observer برای انیمیشن‌های اسکرول
+  // 🔹 اطلاعات تماس
+  const contactInfo = [
+    { icon: 'fas fa-map-marker-alt', label: 'Address', value: 'Tehran, Valiasr Street, No. 1234' },
+    { icon: 'fas fa-phone', label: 'Phone', value: '021-12345678' },
+    { icon: 'fas fa-mobile-alt', label: 'Mobile', value: '0912 345 6789' },
+    { icon: 'fas fa-envelope', label: 'Email', value: 'info@barbershop.ir' },
+    { icon: 'fas fa-clock', label: 'Working Hours', value: 'Sat–Thu: 9 AM – 9 PM<br/>Fri: 9 AM – 6 PM' }
+  ];
+
+  // 🔹 لینک‌های شبکه اجتماعی
+  const socialLinks = [
+    { icon: 'fab fa-instagram', url: '#' },
+    { icon: 'fab fa-telegram', url: '#' },
+    { icon: 'fab fa-whatsapp', url: '#' },
+    { icon: 'fab fa-facebook-f', url: '#' }
+  ];
+
+  // 🔹 Intersection Observer برای انیمیشن ورود
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
 
-    const observerCallback = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setAnimatedElements(prev => [...prev, entry.target.dataset.animationId]);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const elements = document.querySelectorAll('[data-animation-id]');
-    elements.forEach(el => observer.observe(el));
+    const elements = document.querySelectorAll('.contact-info, .contact-form, .contact-item, .social-link');
+    elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
-  // تابع بررسی انیمیشن
-  const isAnimated = (id) => animatedElements.includes(id);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    alert('پیام شما با موفقیت ارسال شد! به زودی با شما تماس خواهیم گرفت.');
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
-  };
-
-  // اطلاعات تماس (مثل Main)
-  const contactInfo = [
-    {
-      icon: "fas fa-map-marker-alt",
-      label: "آدرس",
-      value: "تهران، خیابان ولیعصر، پلاک 1234"
-    },
-    {
-      icon: "fas fa-phone",
-      label: "تلفن",
-      value: "021-12345678"
-    },
-    {
-      icon: "fas fa-mobile-alt",
-      label: "موبایل",
-      value: "0912 345 6789"
-    },
-    {
-      icon: "fas fa-envelope",
-      label: "ایمیل",
-      value: "info@barbershop.ir"
-    },
-    {
-      icon: "fas fa-clock",
-      label: "ساعات کاری",
-      value: "شنبه تا چهارشنبه: 9 تا 21<br />پنجشنبه: 9 تا 18"
-    }
-  ];
-
-  // بارگذاری تم از localStorage
+  // 🔹 بارگذاری تم از localStorage هنگام mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme' || 'dark');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
-  // تغییر تم
+  // 🔹 تابع تغییر تم
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
@@ -106,146 +67,91 @@ const ContactPage = () => {
     localStorage.setItem('theme', newTheme);
   };
 
+  // 🔹 تغییر مقادیر فرم
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  // 🔹 ارسال فرم
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone || !formData.message) {
+      alert('Please fill all fields!');
+      return;
+    }
+    setSubmitted(true);
+    setFormData({ name: '', phone: '', message: '' });
+    setTimeout(() => setSubmitted(false), 3000);
+  };
+
   return (
     <div className="contact-page">
-      {/* هدر */}
+      {/* 🔝 هدر با تم فعلی و دکمه تغییر تم */}
       <Header theme={theme} toggleTheme={toggleTheme} />
 
+      {/* 🧱 محتوای اصلی بخش تماس */}
       <main className="contact-main">
-        {/* Hero Section - مشابه Main */}
-        <section className="hero-section" data-animation-id="hero">
-          <div className="hero-container">
-            <div className="hero-content">
-              <div className={`hero-text ${isAnimated('hero') ? 'animate-fade-in-up' : ''}`}>
-                <h1 className="hero-title">تماس با ما</h1>
-                <p className="hero-description">
-                  سوالی دارید یا نیاز به راهنمایی دارید؟ با ما در تماس باشید و از خدمات تخصصی استایلیست‌های برتر لذت ببرید.
-                </p>
-                <Link to="#contact" className="btn btn-primary">
-                  <i className="fas fa-arrow-down"></i> ادامه مطلب
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="hero-overlay"></div>
-        </section>
-
-        {/* Contact Section - کاملاً مشابه Main با انیمیشن */}
-        <section id="contact" className="section contact-section" data-animation-id="contact">
-          <div className="section-container">
-            <div className="contact-content">
-              {/* اطلاعات تماس */}
-              <div className={`contact-info animate-fade-in-up delay-1`} data-animation-id="contact-info">
-                <div className="section-header">
-                  <h2 className="section-title">اطلاعات تماس</h2>
-                </div>
-                <ul className="contact-details">
-                  {contactInfo.map((info, index) => (
-                    <li key={index} className="contact-item">
-                      <div className="contact-icon-wrapper">
-                        <i className={`fas ${info.icon} contact-icon`}></i>
-                      </div>
-                      <div className="contact-text">
-                        <h3 className="contact-label">{info.label}</h3>
-                        <p
-                          className="contact-value"
-                          dangerouslySetInnerHTML={{ __html: info.value }}
-                        ></p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <div className="social-links">
-                  <a href="#" aria-label="اینستاگرام" className="social-link">
-                    <i className="fab fa-instagram"></i>
+        <section className="contact-me-section">
+          <div className="contact-me-container">
+            {/* Left Column - Contact Info */}
+            <div className="contact-info">
+              <h2 className="contact-title">Get In Touch</h2>
+              <div className="underline"></div>
+              <ul className="contact-list">
+                {contactInfo.map((info, idx) => (
+                  <li key={idx} className={`contact-item fade-in-left delay-${idx + 1}`}>
+                    <div className="icon-wrapper">
+                      <i className={info.icon}></i>
+                    </div>
+                    <div className="contact-text">
+                      <h3 className="label">{info.label}</h3>
+                      <p className="value" dangerouslySetInnerHTML={{ __html: info.value }}></p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="social-links">
+                {socialLinks.map((social, idx) => (
+                  <a
+                    key={idx}
+                    href={social.url}
+                    className={`social-link fade-in-left delay-${idx + 1}`}
+                    aria-label="social-link"
+                  >
+                    <i className={social.icon}></i>
                   </a>
-                  <a href="#" aria-label="تلگرام" className="social-link">
-                    <i className="fab fa-telegram"></i>
-                  </a>
-                  <a href="#" aria-label="واتساپ" className="social-link">
-                    <i className="fab fa-whatsapp"></i>
-                  </a>
-                  <a href="#" aria-label="فیسبوک" className="social-link">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </div>
-              </div>
-
-              {/* فرم تماس */}
-              <div className={`contact-form animate-fade-in-up delay-2`} data-animation-id="contact-form">
-                <form onSubmit={handleFormSubmit} className="contact-form-content">
-                  <div className="form-group">
-                    <label htmlFor="name" className="form-label">نام و نام خانوادگی</label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="form-control"
-                      placeholder="نام کامل خود را وارد کنید"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email" className="form-label">ایمیل</label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="form-control"
-                      placeholder="آدرس ایمیل خود را وارد کنید"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="subject" className="form-label">موضوع</label>
-                    <input
-                      type="text"
-                      id="subject"
-                      className="form-control"
-                      placeholder="موضوع پیام"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="message" className="form-label">پیام</label>
-                    <textarea
-                      id="message"
-                      className="form-control"
-                      placeholder="پیام خود را بنویسید..."
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      rows="5"
-                      required
-                    ></textarea>
-                  </div>
-                  <button type="submit" className="submit-btn btn-block">
-                    ارسال پیام
-                  </button>
-                </form>
+                ))}
               </div>
             </div>
 
-            {/* نقشه (اختیاری - از ContactPage فعلی گرفته شده) */}
-            <div className={`map-section animate-fade-in-up delay-3`} data-animation-id="contact-map">
-              <div className="map-container">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.623051680243!2d51.42159431517979!3d35.72927198018803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e00b9d8f3b9b9%3A0x8a9b9b9b9b9b9b9b!2sVali-e%20Asr%20St%2C%20Tehran%2C%20Iran!5e0!3m2!1sen!2s!4v1650000000000!5m2!1sen!2s"
-                  allowFullScreen=""
-                  loading="lazy"
-                  title="موقعیت آرایشگاه"
-                  className="map-iframe"
-                ></iframe>
-              </div>
+            {/* Right Column - Contact Form */}
+            <div className="contact-form fade-in-right">
+              <h2 className="contact-title">Send a Message</h2>
+              <div className="underline"></div>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input id="name" type="text" value={formData.name} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="phone">Phone Number</label>
+                  <input id="phone" type="tel" value={formData.phone} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="message">Message</label>
+                  <textarea id="message" value={formData.message} onChange={handleChange}></textarea>
+                </div>
+                <button type="submit" className="btn-submit">
+                  <i className="fas fa-paper-plane"></i> Send Message
+                </button>
+                {submitted && <div className="success-message">Your message has been sent!</div>}
+              </form>
             </div>
           </div>
         </section>
       </main>
 
-      {/* فوتر */}
+      {/* 🔝 فوتر ثابت پایین صفحه */}
       <Footer />
     </div>
   );
