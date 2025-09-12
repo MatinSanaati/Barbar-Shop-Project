@@ -1,7 +1,7 @@
 import React from 'react';
-import './User-Icon.css';
+import './User-Login-Icon.css';
 
-const UserIcon = ({ className = '', size = 28 }) => {
+const UserLoginIcon = ({ className = '', size = 28 }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +13,7 @@ const UserIcon = ({ className = '', size = 28 }) => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className={`user-icon ${className}`}
+            className={`user-login-icon ${className}`}
         >
             <g transform="translate(164,164) scale(.8) translate(-164,-164)">
                 <g id="XMLID_526_">
@@ -35,4 +35,4 @@ const UserIcon = ({ className = '', size = 28 }) => {
     );
 };
 
-export default UserIcon;
+export default UserLoginIcon;

@@ -97,12 +97,12 @@ const AppRoutes = () => {
                     <Route path="services/*" element={<UserServicesPage />} />
                     <Route path="profile/*" element={<UserProfile />} />
                     <Route path="about/*" element={<UserAboutPage />} />
-                    <Route path="takingturns/*" element={<UserTakingturnsPage />} />
+                    <Route path="taking-turns/*" element={<UserTakingturnsPage />} />
                     <Route path="contact/*" element={<UserContactPage />} />
                     <Route path="blog/*" element={<UserBlogPage />} />
                     <Route path="help/*" element={<UserHelpPage />} />
                     <Route path="privacy-policy/*" element={<UserPrivacyPolicyPage />} />
-                    <Route path="gallary/*" element={<UserGalleryPage />} />
+                    <Route path="gallery/*" element={<UserGalleryPage />} />
                 </Route>
             )}
 

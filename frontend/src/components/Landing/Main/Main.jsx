@@ -117,8 +117,6 @@ const Main = ({
                 </div>
             </section>
 
-            {/* بقیه بخش‌ها (Booking, About, Contact) بدون تغییر */}
-            {/* فقط در About Section، عکس و متن از siteInfo میاد */}
             <section className="section about-section" data-animation-id="about">
                 <div className="section-container">
                     <div className="about-content">
@@ -166,7 +164,6 @@ const Main = ({
                             </div>
                         </div>
                         <div className="contact-form animate-fade-in-up delay-2" data-animation-id="contact-form">
-                            {/* فرم تماس بدون تغییر */}
                         </div>
                     </div>
                 </div>

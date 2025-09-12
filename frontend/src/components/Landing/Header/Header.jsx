@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import UserIcon from "../../icons/User-Icon";
 import SunIcon from "../../icons/Sun-Icon";
 import MoonIcon from "../../icons/Moon-Icon";
 
 import "./Header.css";
+import UserRegistrationIcon from "../../icons/User-Login-Icon";
 
 const Header = ({ theme, toggleTheme }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,7 +61,7 @@ const Header = ({ theme, toggleTheme }) => {
 
                         {/* آواتار کاربر */}
                         <Link to="/auth-layout" className="profile-avatar-link" aria-label="ورود به حساب کاربری">
-                            <UserIcon className="user-icon-svg" size={36} />
+                            <UserRegistrationIcon className="user-registration-icon-svg" size={36} />
                         </Link>
 
                         {/* دکمه تم */}

@@ -149,7 +149,7 @@
     text-decoration: none;
 }
 
-.user-icon-svg {
+.user-registration-icon-svg {
     width: 28px;
     height: 28px;
     color: var(--gold-light);
@@ -160,7 +160,7 @@
     transition: all 0.3s ease;
 }
 
-.user-icon-svg:hover {
+.user-registration-icon-svg:hover {
     color: var(--gold);
     transform: scale(1.1);
     box-shadow: 0 0 0 2.5px rgba(212, 175, 55, 0.4);
