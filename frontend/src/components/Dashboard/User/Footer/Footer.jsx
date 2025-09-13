@@ -19,18 +19,17 @@ const Footer = () => {
                     <div className="footer-col">
                         <h3 className="footer-title">خدمات ما</h3>
                         <ul className="footer-links">
-                            <li><Link to="/user/services"><i className="fas fa-cut"></i> اصلاح سر</Link></li>
-                            <li><Link to="/user/services"><i className="fas fa-user"></i> آرایش صورت</Link></li>
-                            <li><Link to="/user/services"><i className="fas fa-palette"></i> ناخن زنی</Link></li>
-                            <li><Link to="/user/services"><i className="fas fa-soap"></i> مراقبت پوست</Link></li>
-                            <li><Link to="/user/services"><i className="fas fa-spa"></i> ماساژ صورت</Link></li>
+                            <li><Link to="/ServicesPage"><i className="fas fa-cut"></i> اصلاح معمولی سر</Link></li>
+                            <li><Link to="/ServicesPage"><i className="fas fa-user"></i> اصلاح صورت</Link></li>
+                            <li><Link to="/ServicesPage"><i className="fas fa-palette"></i> سایه ریش</Link></li>
+                            <li><Link to="/ServicesPage"><i className="fas fa-soap"></i> خط ریش</Link></li>
                         </ul>
                     </div>
                     <div className="footer-col">
                         <h3 className="footer-title">صفحات بیشتر</h3>
                         <ul className="footer-links">
                             <li><Link to="/user/privacy-policy"><i className="fas fa-user-secret"></i> حریم خصوصی</Link></li>
-                            <li><Link to="/user/gallary"><i className="fas fa-images"></i> گالری</Link></li>
+                            <li><Link to="/user/gallery"><i className="fas fa-images"></i> گالری</Link></li>
                         </ul>
                     </div>
                 </div>

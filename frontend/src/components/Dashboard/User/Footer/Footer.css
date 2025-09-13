@@ -54,7 +54,7 @@
     margin-bottom: var(--spacing-md);
 }
 
-.footer-links li a {
+.footer-links li {
     color: var(--silver);
     text-decoration: none;
     transition: var(--transition);

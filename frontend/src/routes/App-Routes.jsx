@@ -23,7 +23,7 @@ import UserTakingturnsPage from "../components/Dashboard/User/Header/Taking-Turn
 import UserContactPage from "../components/Dashboard/User/Header/Contact/Contact";
 import UserBlogPage from "../components/Dashboard/User/Header/Blog/Blog";
 import UserHelpPage from "../components/Dashboard/User/Header/Help/Help";
-import UserGalleryPage from "../components/Dashboard/User/Header/Help/Help";
+import UserGalleryPage from "../components/Dashboard/User/Footer/Gallery/Gallery";
 import UserPrivacyPolicyPage from "../components/Dashboard/User/Footer/Privacy-Policy/Privacy-Policy";
 
 // داشبورد ادمین
@@ -101,8 +101,8 @@ const AppRoutes = () => {
                     <Route path="contact/*" element={<UserContactPage />} />
                     <Route path="blog/*" element={<UserBlogPage />} />
                     <Route path="help/*" element={<UserHelpPage />} />
-                    <Route path="privacy-policy/*" element={<UserPrivacyPolicyPage />} />
                     <Route path="gallery/*" element={<UserGalleryPage />} />
+                    <Route path="privacy-policy/*" element={<UserPrivacyPolicyPage />} />
                 </Route>
             )}
 
