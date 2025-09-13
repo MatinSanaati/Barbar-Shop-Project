@@ -3,15 +3,18 @@ const router = express.Router();
 const { register, login, logout } = require('../controllers/userController');
 const auth = require('../middleware/auth');
 
+// ✅ ثبت‌نام
 router.post('/register', register);
+
+// ✅ ورود (قدیمی — بعداً حذف میشه)
 router.post('/login', login);
 
-// ✅ بارگذاری اطلاعات کاربر فعلی
+// ✅ اطلاعات کاربر فعلی
 router.get('/me', auth, (req, res) => {
     res.json({ user: req.user });
 });
 
-// ✅ روت آپدیت اطلاعات
+// ✅ آپدیت اطلاعات کاربر
 router.post('/update', auth, async (req, res) => {
     const { name, phone } = req.body;
     const updates = {};
@@ -26,6 +29,7 @@ router.post('/update', auth, async (req, res) => {
     }
 });
 
+//  خروج
 router.post('/logout', auth, logout);
 
 module.exports = router;

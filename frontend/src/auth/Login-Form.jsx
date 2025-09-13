@@ -43,15 +43,12 @@ const LoginForm = ({ onSwitch }) => {
             const data = await response.json();
 
             if (response.ok) {
-                // ✅ هدایت بر اساس نقش
-                const redirectPath = data.user.role === 'admin'
+                alert("ورود موفقیت‌آمیز");
+                window.location.href = data.user.role === 'admin'
                     ? '/admin'
                     : data.user.role === 'hairdresser'
                         ? '/hairdresser'
                         : '/user';
-
-                alert("ورود موفقیت‌آمیز");
-                window.location.href = redirectPath;
             } else {
                 setErrors({ submit: data.error });
             }
@@ -59,7 +56,7 @@ const LoginForm = ({ onSwitch }) => {
             setErrors({ submit: "خطا در ارتباط با سرور" });
         }
     };
-    
+
     return (
         <div className="login-form-wrapper">
             <div className="logo">
@@ -77,7 +74,7 @@ const LoginForm = ({ onSwitch }) => {
             <form onSubmit={handleLoginSubmit}>
                 <h2 className="form-title">ورود به حساب کاربری</h2>
 
-                {/* فیلد نام با label شناور */}
+                {/* فیلد نام */}
                 <div className="form-group">
                     <div className="input-wrapper">
                         <input
@@ -94,7 +91,7 @@ const LoginForm = ({ onSwitch }) => {
                     {errors.name && <div className="error-message">{errors.name}</div>}
                 </div>
 
-                {/* فیلد شماره تلفن با label شناور */}
+                {/* فیلد شماره تلفن */}
                 <div className="form-group">
                     <div className="input-wrapper">
                         <input

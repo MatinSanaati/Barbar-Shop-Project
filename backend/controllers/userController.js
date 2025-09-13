@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+// const db = require('../config/db');
 
 // ثبت‌نام کاربر جدید
 exports.register = async (req, res) => {
@@ -88,7 +89,7 @@ exports.login = async (req, res) => {
     }
 };
 
-// ✅ اضافه کردن متد logout
+// اضافه کردن متد logout
 exports.logout = (req, res) => {
     // حذف کوکی امن
     res.clearCookie('token', {

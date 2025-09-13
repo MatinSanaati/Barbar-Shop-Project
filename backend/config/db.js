@@ -26,53 +26,46 @@ db.serialize(() => {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     phone TEXT UNIQUE NOT NULL,
-    role TEXT NOT NULL DEFAULT 'user'
-    )
-  `, (err) => {
+    role TEXT NOT NULL DEFAULT 'user',
+    otp TEXT,
+    otp_expires_at DATETIME
+  )
+`, (err) => {
     if (err) {
       console.error('❌ خطا در ساخت جدول users:', err.message);
     } else {
       console.log('✅ جدول users ساخته شد یا قبلاً وجود داشت');
     }
 
-    // ✅ چک کردن وجود ستون phone
-    db.all("PRAGMA table_info(users)", (err, columns) => {
-      if (err) {
-        console.error('❌ خطا در چک کردن ستون‌های users:', err);
-        return;
-      }
+    // ✅ چک کردن وجود ستون‌های OTP با db.all()
+    const columnsToAdd = [
+      { sql: "ALTER TABLE users ADD COLUMN otp TEXT", name: "otp" },
+      { sql: "ALTER TABLE users ADD COLUMN otp_expires_at DATETIME", name: "otp_expires_at" }
+    ];
 
-      if (!columns || columns.length === 0) {
-        console.log('⚠️ جدول users وجود ندارد یا خالی است');
-        return;
-      }
+    columnsToAdd.forEach(({ sql, name }) => {
+      db.all(`PRAGMA table_info(users)`, (err, columns) => {
+        if (err) {
+          console.error('❌ خطا در چک ستون‌ها:', err);
+          return;
+        }
 
-      const phoneColumn = columns.find(col => col.name === 'phone');
-      if (!phoneColumn) {
-        console.log('🔧 ستون phone وجود ندارد، در حال اضافه کردن...');
-        // ❌ نه: ADD COLUMN phone TEXT UNIQUE NOT NULL
-        // ✅ بله: فقط TEXT
-        db.run("ALTER TABLE users ADD COLUMN phone TEXT", (err) => {
-          if (err) {
-            console.error('❌ خطا در اضافه کردن ستون phone:', err.message);
-          } else {
-            console.log('✅ ستون phone با موفقیت به جدول users اضافه شد (بدون NOT NULL/UNIQUE)');
-          }
-        });
-      } else {
-        console.log('🟢 ستون phone در جدول users وجود دارد');
-      }
-    });
+        if (!Array.isArray(columns)) {
+          console.error('❌ خروجی PRAGMA table_info یه آرایه نیست!');
+          return;
+        }
 
-    // ✅ چک کردن وجود جدول
-    db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='users';", (err, row) => {
-      if (err) {
-        console.error('❌ خطا در چک وجود جدول users:', err);
-      } else if (row) {
-        console.log('🟢 جدول users با موفقیت یافت شد');
-      } else {
-        console.log('🔴 جدول users وجود ندارد! مشکل جدی');
-      }
+        const hasColumn = columns.some(col => col.name === name);
+        if (!hasColumn) {
+          db.run(sql, (err) => {
+            if (err) {
+              console.error(`❌ خطا در اضافه کردن ستون ${name}:`, err.message);
+            } else {
+              console.log(`✅ ستون ${name} به جدول users اضافه شد`);
+            }
+          });
+        }
+      });
     });
   });
 
