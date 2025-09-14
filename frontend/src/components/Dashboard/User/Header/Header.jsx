@@ -8,6 +8,7 @@ import UserProfileIcon from "../../../icons/User-Profile-Icon";
 
 const Header = ({ theme, toggleTheme }) => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
     const menuItems = [
         { path: "/user/services", label: "خدمات" },
@@ -67,22 +68,44 @@ const Header = ({ theme, toggleTheme }) => {
                     <div className="actions">
                         {/* پروفایل */}
                         <div className="profile">
-                            <div className="profile-icon" onClick={() => window.location.href = "/user/profile"}>
+                            {/* دکمه آواتار — فقط دکمه است، نه لینک */}
+                            <button
+                                className="profile-icon-btn"
+                                type="button"
+                                aria-label="منوی پروفایل"
+                                onClick={() => {
+                                    // فقط در حالت موبایل با کلیک باز/بسته شه
+                                    if (window.innerWidth <= 768) {
+                                        setProfileDropdownOpen(prev => !prev);
+                                    }
+                                }}
+                            >
                                 <UserProfileIcon size={34} />
-                            </div>
-                            <ul className="profile-dropdown">
+                            </button>
+
+                            {/* منوی پروفایل */}
+                            <ul
+                                className={`profile-dropdown ${profileDropdownOpen ? 'open' : ''}`}
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <li>
-                                    <Link to="/user/profile" className="dropdown-item">
+                                    <Link to="/user/profile" className="dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
                                         <i className="fas fa-user"></i> پروفایل
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/user/settings" className="dropdown-item">
+                                    <Link to="/user/settings" className="dropdown-item" onClick={() => setProfileDropdownOpen(false)}>
                                         <i className="fas fa-cog"></i> تنظیمات
                                     </Link>
                                 </li>
                                 <li>
-                                    <button className="dropdown-item" onClick={handleLogout}>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                            handleLogout();
+                                            setProfileDropdownOpen(false);
+                                        }}
+                                    >
                                         <i className="fas fa-sign-out-alt"></i> خروج
                                     </button>
                                 </li>
@@ -100,6 +123,14 @@ const Header = ({ theme, toggleTheme }) => {
                     </div>
                 </div>
             </header>
+
+            {/* Overlay برای بستن منو با کلیک بیرون (فقط موبایل) */}
+            {profileDropdownOpen && window.innerWidth <= 768 && (
+                <div
+                    className="profile-dropdown-overlay"
+                    onClick={() => setProfileDropdownOpen(false)}
+                ></div>
+            )}
 
             {/* منوی موبایل */}
             <div

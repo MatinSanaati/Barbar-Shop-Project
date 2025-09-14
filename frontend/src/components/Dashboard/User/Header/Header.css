@@ -74,24 +74,33 @@
 }
 
 /* پروفایل */
+/* --- پروفایل --- */
 .profile {
     position: relative;
 }
 
-.profile-icon {
-    list-style-type: none;
+/* دکمه آواتار */
+.profile-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
 }
 
-.profile-icon svg {
-    cursor: pointer;
+.profile-icon-btn svg {
     border: 2px solid var(--gold);
     border-radius: 50%;
     padding: 3px;
-    transition: 0.3s;
     background: var(--bg-dark);
+    transition: 0.3s ease;
 }
 
-.profile-icon svg:hover {
+.profile-icon-btn:hover svg {
     transform: scale(1.1);
 }
 
@@ -111,12 +120,60 @@
     transform: translateY(-10px);
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
 }
 
-.profile:hover .profile-dropdown {
+/* نمایش منو */
+.profile:hover .profile-dropdown,
+.profile-dropdown.open {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+/* آیتم‌های منو */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-dark);
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: right;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+.dropdown-item i {
+    color: var(--gold);
+}
+
+/* اوورلی موبایل */
+.profile-dropdown-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* آیتم‌های منو */
