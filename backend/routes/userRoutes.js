@@ -1,12 +1,14 @@
+// routes/userRoutes.js
 const express = require('express');
 const router = express.Router();
 const { register, login, logout } = require('../controllers/userController');
 const auth = require('../middleware/auth');
+const User = require('../models/User');
 
 // ✅ ثبت‌نام
 router.post('/register', register);
 
-// ✅ ورود (قدیمی — بعداً حذف میشه)
+// ✅ ورود
 router.post('/login', login);
 
 // ✅ اطلاعات کاربر فعلی

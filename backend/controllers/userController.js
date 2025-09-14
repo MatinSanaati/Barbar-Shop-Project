@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-// const db = require('../config/db');
+const db = require('../config/db');
 
 // ثبت‌نام کاربر جدید
 exports.register = async (req, res) => {

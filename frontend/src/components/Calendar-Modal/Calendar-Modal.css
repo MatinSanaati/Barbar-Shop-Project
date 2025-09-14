@@ -1,3 +1,4 @@
+/* --- مدیریت overlay --- */
 .calendar-modal-overlay {
     position: fixed;
     top: 0;
@@ -10,22 +11,48 @@
     z-index: 2000;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    /* غیرفعال قبل از show */
 }
 
 .calendar-modal-overlay.show {
     opacity: 1;
-    transition: opacity 0.3s ease;
+    pointer-events: auto;
 }
 
 .calendar-modal-overlay.hide {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    pointer-events: auto;
 }
 
-.calendar-modal-overlay.show {
-    opacity: 1;
+/* --- انیمیشن ظاهر/مخفی شدن --- */
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-60px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
+@keyframes slideOutToTop {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-60px) scale(0.9);
+    }
+}
+
+/* --- تقویم داخلی --- */
 .calendar-modal {
     width: 90vw;
     max-width: 400px;
@@ -34,12 +61,27 @@
     background: #1a1a1a;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
     border: 1px solid #333;
+
+    /* حالت اولیه */
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+    transition: transform 0.1s ease;
+    /* برای تعامل لمسی */
 }
 
+.calendar-modal-overlay.show .calendar-modal {
+    animation: slideInFromTop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.calendar-modal-overlay.hide .calendar-modal {
+    animation: slideOutToTop 0.4s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+/* =============== هدر =============== */
 .calendar-header {
     background: #d4af37;
     color: #121212;
@@ -48,7 +90,6 @@
     font-weight: bold;
     font-size: 1.3rem;
     font-family: Georgia, serif;
-    position: relative;
 }
 
 .calendar-header h3 {
@@ -80,11 +121,40 @@
     transition: all 0.2s ease;
 }
 
-.calendar-nav-btn:hover {
+.calendar-nav-btn:hover,
+.calendar-nav-btn:focus {
     background: rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
 }
 
+/* =============== سال و ماه =============== */
+.year-selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.year-btn {
+    background: #333;
+    border: none;
+    color: #d4af37;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.year-btn:hover,
+.year-btn:focus {
+    background: #444;
+    transform: scale(1.05);
+}
+
+/* =============== بدنه =============== */
 .calendar-body {
     flex: 1;
     overflow-y: auto;
@@ -122,68 +192,74 @@
 .week-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 6px;
 }
 
 .day-header {
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #b0b0b0;
     font-weight: bold;
-    padding: 5px 0;
+    padding: 6px 0;
 }
 
 .calendar-day {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 50px;
-    border-radius: 10px;
+    height: 52px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    font-weight: 500;
     transition: all 0.2s ease;
     color: #e0e0e0;
+    user-select: none;
 }
 
-.calendar-day:hover:not(.disabled) {
+.calendar-day:hover:not(.disabled),
+.calendar-day:focus:not(.disabled) {
     background: #d4af37;
     color: #121212;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 .calendar-day.selected {
     background: #d4af37;
     color: #121212;
     font-weight: bold;
-    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    border: 2px solid #fff;
 }
 
 .calendar-day.disabled {
     color: #555;
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 .calendar-day.weekend {
     color: #ff6b6b;
 }
 
+/* =============== فوتر =============== */
 .calendar-footer {
     padding: 1.5rem;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     border-top: 1px solid #333;
 }
 
 .calendar-btn {
     flex: 1;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 1.05rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .btn-cancel {
@@ -191,8 +267,10 @@
     color: #e0e0e0;
 }
 
-.btn-cancel:hover {
+.btn-cancel:hover,
+.btn-cancel:focus {
     background: #444;
+    border-color: #555;
 }
 
 .btn-select {
@@ -200,115 +278,125 @@
     color: #121212;
 }
 
-.btn-select:hover {
+.btn-select:hover,
+.btn-select:focus {
     background: #c49f27;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.5);
 }
 
-.month-selector {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 1rem 0;
-    font-size: 1.1rem;
-}
+/* =============== واکنش‌گرایی پیشرفته =============== */
 
-.year-selector {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 1rem;
-}
-
-.year-btn {
-    background: #333;
-    border: none;
-    color: #d4af37;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.year-btn:hover {
-    background: #444;
-}
-
-.calendar-modal-overlay {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.calendar-modal-overlay.show {
-    opacity: 1;
-}
-
-/* انیمیشن‌ها */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideOut {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-}
-
-.calendar-modal {
-    animation: slideIn 0.4s ease-out forwards;
-}
-
-.calendar-modal-overlay.hide .calendar-modal {
-    animation: slideOut 0.3s ease-in forwards;
-}
-
-.slide-down {
-    opacity: 0;
-    transform: translateY(-30px);
-    animation: slideDown 0.5s forwards;
-}
-
-@keyframes slideDown {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* واکنش‌ گرا */
+/* --- موبایل کوچک (تحت 480px) --- */
 @media (max-width: 480px) {
     .calendar-modal {
         width: 95vw;
         height: 95vh;
-        border-radius: 15px;
+        max-height: none;
+        border-radius: 16px;
     }
 
-    .calendar-header {
-        padding: 1rem;
-    }
-
+    .calendar-header,
     .calendar-footer {
-        padding: 1rem;
+        padding: 1.2rem;
+    }
+
+    .calendar-header h3 {
+        font-size: 1.3rem;
+    }
+
+    .calendar-header p {
+        font-size: 0.85rem;
     }
 
     .calendar-day {
-        height: 45px;
-        font-size: 0.9rem;
+        height: 48px;
+        font-size: 0.95rem;
+    }
+
+    .calendar-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* --- دستگاه‌های تاچ (تاچ اسکرین) --- */
+@media (hover: none) and (pointer: coarse) {
+    .calendar-day {
+        height: 56px;
+        font-size: 1.1rem;
+    }
+
+    .calendar-nav-btn,
+    .year-btn {
+        touch-action: manipulation;
+    }
+}
+
+/* --- تبلت و صفحه متوسط --- */
+@media (min-width: 481px) and (max-width: 768px) {
+    .calendar-modal {
+        width: 85vw;
+        max-width: 420px;
+        height: 85vh;
+    }
+
+    .calendar-day {
+        height: 54px;
+        font-size: 1.1rem;
+    }
+}
+
+/* --- دسکتاپ --- */
+@media (min-width: 769px) {
+    .calendar-modal {
+        width: 80vw;
+        max-width: 440px;
+        height: 80vh;
+    }
+
+    .calendar-day:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(212, 175, 55, 0.2);
+    }
+}
+
+/* --- حالت تم تاریک سیستم --- */
+@media (prefers-color-scheme: light) {
+    .calendar-modal {
+        background: #fff;
+        color: #111;
+        border-color: #ddd;
+    }
+
+    .calendar-body,
+    .week-container {
+        background: #fafafa;
+    }
+
+    .calendar-header {
+        background: #d4af37;
+        color: #000;
+    }
+
+    .btn-cancel {
+        background: #eee;
+        color: #333;
+    }
+
+    .btn-cancel:hover {
+        background: #ddd;
+    }
+
+    .calendar-day {
+        color: #111;
+    }
+
+    .calendar-day.disabled {
+        color: #aaa;
+    }
+
+    .backdrop-filter {
+        backdrop-filter: blur(4px);
     }
 }
