@@ -1,11 +1,3 @@
-/* General */
-body {
-    margin: 0;
-    font-family: "Segoe UI", sans-serif;
-    background: #121212;
-    color: #fff;
-}
-
 h1,
 h2,
 h3 {
@@ -34,14 +26,15 @@ h3 {
 .underline::after {
     content: "";
     position: absolute;
-    left: 0;
+    right: 0;
+    /* راست‌چین */
     bottom: -5px;
     width: 50px;
     height: 3px;
     background: #d4af37;
 }
 
-/* Buttons */
+/* دکمه‌ها */
 .btn {
     display: inline-block;
     padding: 12px 25px;
@@ -52,7 +45,8 @@ h3 {
 }
 
 .btn i {
-    margin-right: 8px;
+    margin-left: 8px;
+    /* به جای margin-right برای RTL */
 }
 
 .btn-gold {
@@ -74,7 +68,7 @@ h3 {
     color: #121212;
 }
 
-/* Hero */
+/* هیرو */
 .hero {
     height: 100vh;
     background: url("https://images.unsplash.com/photo-1584433144874-dbe455b35f20") no-repeat center center/cover;
@@ -105,7 +99,7 @@ h3 {
     margin: 0 10px;
 }
 
-/* Services */
+/* خدمات */
 .services {
     padding: 80px 20px;
 }
@@ -142,7 +136,8 @@ h3 {
 .badge {
     position: absolute;
     top: 15px;
-    left: 15px;
+    right: 15px;
+    /* RTL */
     padding: 5px 12px;
     font-size: 0.8rem;
     font-weight: bold;
@@ -175,7 +170,7 @@ h3 {
     font-weight: bold;
 }
 
-/* About */
+/* درباره ما */
 .about {
     display: flex;
     flex-wrap: wrap;
@@ -197,7 +192,7 @@ h3 {
     border-radius: 10px;
 }
 
-/* Contact */
+/* تماس */
 .contact {
     display: flex;
     flex-wrap: wrap;
@@ -217,38 +212,40 @@ h3 {
 
 .contact-info li {
     margin-bottom: 12px;
-    color: #555;
+    color: #ccc;
     font-size: 1rem;
     line-height: 1.6;
+    display: flex;
+    align-items: center;
 }
 
 .contact-info i {
-    margin-right: 10px;
+    margin-left: 10px;
+    /* RTL */
     color: #d4af37;
     width: 20px;
     text-align: center;
 }
 
 .social-links a {
+    text-decoration: none;
+    margin-left: 15px;
+    /* RTL */
+    font-size: 1.3rem;
+    color: #d4af37;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    background-color: #f5f5f5;
-    color: #d4af37;
-    font-size: 1.3rem;
-    text-decoration: none;
+    background: #1e1e1e;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.15);
 }
 
-.social-links a {
-    text-decoration: none;
-    margin-right: 15px;
-    font-size: 1.2rem;
-    color: #d4af37;
+.social-links a:hover {
+    background: #d4af37;
+    color: #121212;
 }
 
 .contact-form {
@@ -275,7 +272,7 @@ h3 {
     cursor: pointer;
 }
 
-/* Animations */
+/* انیمیشن‌ها */
 .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
@@ -289,7 +286,8 @@ h3 {
 
 .slide-in {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(50px);
+    /* برای راست‌چین */
     transition: all 0.6s ease-out;
 }
 
@@ -310,7 +308,7 @@ h3 {
     transition-delay: 0.6s;
 }
 
-/* Responsive */
+/* ریسپانسیو */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2rem;

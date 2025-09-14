@@ -11,22 +11,22 @@ const BlogPage = () => {
     // 🔹 داده‌های بلاگ
     const posts = [
         {
-            title: 'The Art of the Classic Fade',
-            excerpt: 'How to achieve the perfect fade cut with precision and symmetry.',
-            date: 'Apr 28, 2025',
-            category: 'Haircut'
+            title: 'هنر فید کلاسیک',
+            excerpt: 'چطور می‌توانید یک مدل فید بی‌نقص و متقارن بزنید.',
+            date: '۹ اردیبهشت ۱۴۰۴',
+            category: 'کوتاهی مو'
         },
         {
-            title: 'Beard Grooming Essentials',
-            excerpt: 'Must-have products and routines for a healthy, stylish beard.',
-            date: 'Apr 15, 2025',
-            category: 'Beard'
+            title: 'ضروریات مراقبت از ریش',
+            excerpt: 'محصولات و روتین‌هایی که برای داشتن ریش سالم و شیک لازم دارید.',
+            date: '۲۶ فروردین ۱۴۰۴',
+            category: 'ریش'
         },
         {
-            title: 'Styling Tips for Thick Hair',
-            excerpt: 'Manage volume, reduce frizz, and enhance texture with these pro tips.',
-            date: 'Mar 30, 2025',
-            category: 'Style'
+            title: 'نکات استایل موهای پرپشت',
+            excerpt: 'چگونه حجم را کنترل کنید، وز را کاهش دهید و بافت مو را تقویت کنید.',
+            date: '۱۰ فروردین ۱۴۰۴',
+            category: 'استایل'
         }
     ];
 
@@ -67,11 +67,11 @@ const BlogPage = () => {
     // 🔹 تعیین کلاس دسته‌بندی
     const getCategoryClass = (category) => {
         switch (category) {
-            case 'Haircut':
+            case 'کوتاهی مو':
                 return 'badge-gold';
-            case 'Beard':
+            case 'ریش':
                 return 'badge-green';
-            case 'Style':
+            case 'استایل':
                 return 'badge-blue';
             default:
                 return 'badge-gold';
@@ -79,15 +79,17 @@ const BlogPage = () => {
     };
 
     return (
-        <div className="blog-page">
+        <div className="blog-page" dir="rtl">
             <Header theme={theme} toggleTheme={toggleTheme} />
 
             <main className="blog-main">
                 <section className="blog-section">
                     <div className="blog-header">
-                        <h2 className="blog-title">Barber Journal</h2>
+                        <h2 className="blog-title">مجله آرایشگاه</h2>
                         <div className="underline"></div>
-                        <p className="blog-subtitle">Tips, trends, and grooming advice from the chair</p>
+                        <p className="blog-subtitle">
+                            نکات، ترندها و مشاوره‌های حرفه‌ای در زمینه اصلاح و استایل
+                        </p>
                     </div>
                     <div className="blog-grid">
                         {posts.map((post, idx) => (
@@ -99,7 +101,7 @@ const BlogPage = () => {
                                 <p className="post-excerpt">{post.excerpt}</p>
                                 <div className="post-footer">
                                     <span className="post-date">{post.date}</span>
-                                    <i className="fas fa-arrow-right read-more"></i>
+                                    <i className="fas fa-arrow-left read-more"></i>
                                 </div>
                             </div>
                         ))}

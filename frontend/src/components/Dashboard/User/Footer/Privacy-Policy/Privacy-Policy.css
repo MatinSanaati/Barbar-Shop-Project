@@ -20,7 +20,8 @@
 }
 
 .policy-title i {
-    margin-right: 10px;
+    margin-left: 10px;
+    margin-right: 0;
 }
 
 .policy-subtitle {
@@ -57,18 +58,13 @@
 }
 
 .policy-list li {
-    margin-bottom: 15px;
-    padding-left: 30px;
-    position: relative;
-    font-size: 1rem;
-    color: #eee;
+    padding-right: 30px;
+    padding-left: 0;
 }
 
 .policy-list li i {
-    position: absolute;
-    left: 0;
-    top: 2px;
-    color: #d4af37;
+    right: 0;
+    left: auto;
 }
 
 /* Final Note */

@@ -8,31 +8,31 @@ const HelpPage = () => {
     // 🔹 State برای مدیریت تم
     const [theme, setTheme] = useState('dark');
 
-    // 🔹 داده‌های سوالات متداول
+    // 🔹 داده‌های سوالات متداول (فارسی شده)
     const faqs = [
         {
-            question: "How do I book an appointment?",
-            answer: "Visit the 'Book Now' page, select your service, date, and time. Confirm your details to reserve your spot."
+            question: "چطور می‌توانم نوبت رزرو کنم؟",
+            answer: "به صفحه «رزرو نوبت» بروید، سرویس، تاریخ و ساعت خود را انتخاب کنید و اطلاعاتتان را تأیید نمایید."
         },
         {
-            question: "What if I'm late for my appointment?",
-            answer: "Please arrive on time. If you're more than 10 minutes late, your appointment may be canceled."
+            question: "اگر دیر به نوبت برسم چه می‌شود؟",
+            answer: "لطفاً به موقع مراجعه کنید. در صورتی که بیش از ۱۰ دقیقه تأخیر داشته باشید، ممکن است نوبت شما لغو شود."
         },
         {
-            question: "Can I reschedule my appointment?",
-            answer: "Yes, contact us at least 24 hours before your scheduled time to change your booking."
+            question: "آیا می‌توانم نوبت خود را تغییر بدهم؟",
+            answer: "بله، کافیست حداقل ۲۴ ساعت قبل از زمان رزرو شده با ما تماس بگیرید تا تغییر اعمال شود."
         },
         {
-            question: "Do you accept walk-ins?",
-            answer: "Yes, but priority is given to booked clients. We recommend reserving online."
+            question: "آیا مراجعه حضوری بدون رزرو امکان‌پذیر است؟",
+            answer: "بله، اما اولویت با افرادی است که از قبل نوبت گرفته‌اند. پیشنهاد می‌کنیم آنلاین رزرو کنید."
         },
         {
-            question: "What payment methods do you accept?",
-            answer: "Cash, debit card, and mobile banking are accepted at the shop."
+            question: "چه روش‌های پرداختی دارید؟",
+            answer: "پرداخت نقدی، کارت بانکی و درگاه‌های موبایلی در آرایشگاه پذیرفته می‌شود."
         },
         {
-            question: "How long does a classic haircut take?",
-            answer: "Typically 45 minutes, including consultation and styling."
+            question: "یک اصلاح کلاسیک چقدر زمان می‌برد؟",
+            answer: "به طور معمول حدود ۴۵ دقیقه طول می‌کشد که شامل مشاوره و استایل نهایی است."
         }
     ];
 
@@ -71,16 +71,16 @@ const HelpPage = () => {
     };
 
     return (
-        <div className="help-page">
+        <div className="help-page" dir="rtl">
             <Header theme={theme} toggleTheme={toggleTheme} />
 
             <main className="help-main">
                 <section className="help-section">
                     <div className="help-header">
-                        <h2 className="help-title">Need Help?</h2>
+                        <h2 className="help-title">سؤالات متداول</h2>
                         <div className="underline"></div>
                         <p className="help-subtitle">
-                            Everything you need to know about booking, services, and policies
+                            همه چیز درباره رزرو نوبت، خدمات و قوانین آرایشگاه
                         </p>
                     </div>
                     <div className="faq-list">

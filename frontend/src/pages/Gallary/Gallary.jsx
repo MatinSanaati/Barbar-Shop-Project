@@ -55,22 +55,22 @@ const GalleryPage = () => {
     };
 
     return (
-        <div className="gallery-page">
+        <div className="gallery-page" dir="rtl">
             <Header theme={theme} toggleTheme={toggleTheme} />
 
             <main className="gallery-main">
                 <section className="gallery-section">
                     <div className="gallery-header">
-                        <h2 className="gallery-title">Our Gallery</h2>
+                        <h2 className="gallery-title">گالری ما</h2>
                         <div className="underline"></div>
                         <p className="gallery-subtitle">
-                            Real clients, real transformations – see the difference
+                            مشتریان واقعی، تغییرات واقعی – تفاوت را ببینید
                         </p>
                     </div>
                     <div className="gallery-grid">
                         {images.map((img, idx) => (
                             <div key={idx} className={`gallery-item fade-in-up delay-${idx + 1}`}>
-                                <img src={img} alt={`Gallery ${idx + 1}`} />
+                                <img src={img} alt={`تصویر ${idx + 1}`} />
                             </div>
                         ))}
                     </div>

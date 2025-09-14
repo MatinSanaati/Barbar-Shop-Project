@@ -18,11 +18,11 @@ const ContactPage = () => {
 
   // 🔹 اطلاعات تماس
   const contactInfo = [
-    { icon: 'fas fa-map-marker-alt', label: 'Address', value: 'Tehran, Valiasr Street, No. 1234' },
-    { icon: 'fas fa-phone', label: 'Phone', value: '021-12345678' },
-    { icon: 'fas fa-mobile-alt', label: 'Mobile', value: '0912 345 6789' },
-    { icon: 'fas fa-envelope', label: 'Email', value: 'info@barbershop.ir' },
-    { icon: 'fas fa-clock', label: 'Working Hours', value: 'Sat–Thu: 9 AM – 9 PM<br/>Fri: 9 AM – 6 PM' }
+    { icon: 'fas fa-map-marker-alt', label: 'آدرس', value: 'تهران، خیابان ولیعصر، پلاک ۱۲۳۴' },
+    { icon: 'fas fa-phone', label: 'تلفن ثابت', value: '۰۲۱-۱۲۳۴۵۶۷۸' },
+    { icon: 'fas fa-mobile-alt', label: 'موبایل', value: '۰۹۱۲ ۳۴۵ ۶۷۸۹' },
+    { icon: 'fas fa-envelope', label: 'ایمیل', value: 'info@barbershop.ir' },
+    { icon: 'fas fa-clock', label: 'ساعات کاری', value: 'شنبه تا پنجشنبه: ۹ صبح تا ۹ شب<br/>جمعه: ۹ صبح تا ۶ عصر' }
   ];
 
   // 🔹 لینک‌های شبکه اجتماعی
@@ -52,14 +52,14 @@ const ContactPage = () => {
     return () => observer.disconnect();
   }, []);
 
-  // 🔹 بارگذاری تم از localStorage هنگام mount
+  // 🔹 بارگذاری تم از localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
-  // 🔹 تابع تغییر تم
+  // 🔹 تغییر تم
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
@@ -76,7 +76,7 @@ const ContactPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.message) {
-      alert('Please fill all fields!');
+      alert('لطفاً تمام فیلدها را پر کنید!');
       return;
     }
     setSubmitted(true);
@@ -85,17 +85,17 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="contact-page">
-      {/* 🔝 هدر با تم فعلی و دکمه تغییر تم */}
+    <div className="contact-page" dir="rtl">
+      {/* 🔝 هدر */}
       <Header theme={theme} toggleTheme={toggleTheme} />
 
-      {/* 🧱 محتوای اصلی بخش تماس */}
+      {/* 🧱 بخش تماس */}
       <main className="contact-main">
         <section className="contact-me-section">
           <div className="contact-me-container">
-            {/* Left Column - Contact Info */}
+            {/* ستون راست - اطلاعات تماس */}
             <div className="contact-info">
-              <h2 className="contact-title">Get In Touch</h2>
+              <h2 className="contact-title">ارتباط با ما</h2>
               <div className="underline"></div>
               <ul className="contact-list">
                 {contactInfo.map((info, idx) => (
@@ -105,7 +105,10 @@ const ContactPage = () => {
                     </div>
                     <div className="contact-text">
                       <h3 className="label">{info.label}</h3>
-                      <p className="value" dangerouslySetInnerHTML={{ __html: info.value }}></p>
+                      <p
+                        className="value"
+                        dangerouslySetInnerHTML={{ __html: info.value }}
+                      ></p>
                     </div>
                   </li>
                 ))}
@@ -124,34 +127,34 @@ const ContactPage = () => {
               </div>
             </div>
 
-            {/* Right Column - Contact Form */}
+            {/* ستون چپ - فرم تماس */}
             <div className="contact-form fade-in-right">
-              <h2 className="contact-title">Send a Message</h2>
+              <h2 className="contact-title">ارسال پیام</h2>
               <div className="underline"></div>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">نام و نام خانوادگی</label>
                   <input id="name" type="text" value={formData.name} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label htmlFor="phone">شماره تماس</label>
                   <input id="phone" type="tel" value={formData.phone} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="message">Message</label>
+                  <label htmlFor="message">متن پیام</label>
                   <textarea id="message" value={formData.message} onChange={handleChange}></textarea>
                 </div>
                 <button type="submit" className="btn-submit">
-                  <i className="fas fa-paper-plane"></i> Send Message
+                  <i className="fas fa-paper-plane"></i> ارسال پیام
                 </button>
-                {submitted && <div className="success-message">Your message has been sent!</div>}
+                {submitted && <div className="success-message">پیام شما با موفقیت ارسال شد!</div>}
               </form>
             </div>
           </div>
         </section>
       </main>
 
-      {/* 🔝 فوتر ثابت پایین صفحه */}
+      {/* 🔝 فوتر */}
       <Footer />
     </div>
   );

@@ -14,9 +14,9 @@ const Header = ({ theme, toggleTheme }) => {
     // آیتم‌های منو
     const menuItems = [
         { path: "/services", label: "خدمات" },
-        { path: "/about", label: "درباره ما" },
+        { path: "/about", label: "درباره من" },
         { path: "/taking-turns", label: "نوبت‌دهی" },
-        { path: "/contact", label: "تماس با ما" },
+        { path: "/contact", label: "تماس با من" },
         { path: "/blog", label: "بلاگ" },
         { path: "/help", label: "راهنما" },
         { path: "/gallery", label: "گالری" },

@@ -1,16 +1,14 @@
-// src/pages/AboutPage.jsx
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Landing/Header/Header';
 import Footer from '../../components/Landing/Footer/Footer';
 import './About.css';
 
 const AboutPage = () => {
-    // 🔹 State برای مدیریت تم
     const [theme, setTheme] = useState('dark');
 
     // 🔹 Intersection Observer برای انیمیشن ورود
     useEffect(() => {
-        const section = document.querySelector('.about-section');
+        const items = document.querySelectorAll('.fade-in-left, .fade-in-right');
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -22,18 +20,18 @@ const AboutPage = () => {
             { threshold: 0.2 }
         );
 
-        if (section) observer.observe(section);
+        items.forEach(item => observer.observe(item));
         return () => observer.disconnect();
     }, []);
 
-    // 🔹 بارگذاری تم از localStorage هنگام mount
+    // 🔹 بارگذاری تم از localStorage
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') || 'dark';
         setTheme(savedTheme);
         document.documentElement.setAttribute('data-theme', savedTheme);
     }, []);
 
-    // 🔹 تابع تغییر تم
+    // 🔹 تغییر تم
     const toggleTheme = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -42,39 +40,40 @@ const AboutPage = () => {
     };
 
     return (
-        <div className="about-page">
+        <div className="about-page" dir="rtl">
             <Header theme={theme} toggleTheme={toggleTheme} />
 
             <main className="about-main">
                 <section className="about-section" id="about">
-                    <div className="about-container">
-                        {/* Text Content */}
+                    <div className="about-container about-content">
+                        {/* متن درباره ما */}
                         <div className="about-text fade-in-left">
-                            <h2 className="about-title">The Barber</h2>
+                            <h2 className="about-title">درباره ما</h2>
                             <div className="underline"></div>
                             <p>
-                                Ali has over 8 years of experience in men’s grooming, mastering the
-                                art of precision cuts and timeless styles. His journey began in
-                                Tehran, where he cultivated his passion for creating sharp,
-                                personalized looks.
+                                سالن ما با بیش از ۸ سال تجربه در زمینه آرایش و پیرایش آقایان،
+                                همواره تلاش کرده است تا بهترین خدمات را با بالاترین کیفیت ارائه دهد.
+                                از اصلاح کلاسیک گرفته تا استایل‌های مدرن، هدف ما ایجاد ظاهری شیک و
+                                متناسب با شخصیت شماست.
                             </p>
                             <p>
-                                Every client is treated with care and attention, ensuring a unique
-                                experience tailored to their lifestyle and personality. Ali believes
-                                that grooming is more than a service — it’s a ritual of confidence
-                                and style.
+                                ما باور داریم که آراستگی تنها یک خدمت ساده نیست، بلکه یک تجربه
+                                متفاوت است که به شما اعتمادبه‌نفس و حس خوب می‌بخشد.
+                                هر مشتری برای ما منحصر‌به‌فرد است و خدمات متناسب با سبک زندگی
+                                و سلیقه او ارائه می‌شود.
                             </p>
                             <p>
-                                With a client-first mindset, his philosophy blends tradition and
-                                modernity, offering classic techniques with a contemporary touch.
+                                ترکیب دانش سنتی و تکنیک‌های مدرن در کنار استفاده از بهترین مواد،
+                                راز ماندگاری و کیفیت بالای کار ماست.
+                                هدف ما ایجاد فضایی دلنشین برای تجربه‌ای خاص و به‌یادماندنی است.
                             </p>
                         </div>
 
-                        {/* Image */}
+                        {/* تصویر */}
                         <div className="about-image fade-in-right">
                             <img
                                 src="https://images.unsplash.com/photo-1593696140826-c58b021acf8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
-                                alt="Barber at work"
+                                alt="سالن آرایشگری"
                             />
                         </div>
                     </div>

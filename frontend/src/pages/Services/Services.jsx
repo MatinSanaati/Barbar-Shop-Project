@@ -5,10 +5,9 @@ import Footer from '../../components/Landing/Footer/Footer';
 import './Services.css';
 
 const ServicesPage = () => {
-  // 🔹 State برای تم
   const [theme, setTheme] = useState('dark');
 
-  // 🔹 Intersection Observer برای انیمیشن
+  // 🎬 Intersection Observer برای انیمیشن کارت‌ها
   useEffect(() => {
     const cards = document.querySelectorAll('.service-card');
     const observer = new IntersectionObserver(
@@ -26,14 +25,14 @@ const ServicesPage = () => {
     return () => observer.disconnect();
   }, []);
 
-  // 🔹 بارگذاری تم از localStorage هنگام mount
+  // 🎨 بارگذاری تم
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
-  // 🔹 تابع تغییر تم
+  // 🌗 تغییر تم
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
@@ -41,49 +40,49 @@ const ServicesPage = () => {
     localStorage.setItem('theme', newTheme);
   };
 
-  // 🔹 داده‌های خدمات
+  // ✂️ لیست خدمات
   const services = [
     {
       id: 1,
-      title: 'Classic Haircut',
-      description: 'Tailored haircut with precision and style.',
-      price: 'From 350,000 Toman',
-      duration: '45 min',
+      title: 'اصلاح کلاسیک',
+      description: 'اصلاح موی دقیق و تمیز متناسب با استایل شما.',
+      price: 'از ۳۵۰,۰۰۰ تومان',
+      duration: '۴۵ دقیقه',
       image:
         'https://images.unsplash.com/photo-1562832918-d871ef8da87e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      badge: 'Popular',
+      badge: 'محبوب',
     },
     {
       id: 2,
-      title: 'Beard Grooming',
-      description: 'Detailed beard shaping and grooming.',
-      price: 'From 200,000 Toman',
-      duration: '30 min',
+      title: 'اصلاح و فرم دهی ریش',
+      description: 'فرم دهی و مرتب‌سازی ریش با جزئیات کامل.',
+      price: 'از ۲۰۰,۰۰۰ تومان',
+      duration: '۳۰ دقیقه',
       image:
         'https://images.unsplash.com/photo-1599351431408-269d027d3cfd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      badge: 'New',
+      badge: 'جدید',
     },
     {
       id: 3,
-      title: 'Hair Coloring',
-      description: 'Premium coloring with lasting results.',
-      price: 'From 500,000 Toman',
-      duration: '60 min',
+      title: 'رنگ مو',
+      description: 'رنگ موی حرفه‌ای با ماندگاری بالا.',
+      price: 'از ۵۰۰,۰۰۰ تومان',
+      duration: '۶۰ دقیقه',
       image:
         'https://images.unsplash.com/photo-1596466596120-2a8e4b5d2c4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
     },
   ];
 
   return (
-    <div className="services-page">
+    <div className="services-page" dir="rtl">
       <Header theme={theme} toggleTheme={toggleTheme} />
 
       <main className="services-main">
         <section className="services-section" id="services">
           <div className="services-header">
-            <h2 className="services-title">Our Services</h2>
+            <h2 className="services-title">خدمات ما</h2>
             <p className="services-subtitle">
-              Precision cuts, classic grooming, and modern styles
+              اصلاح دقیق، آرایش کلاسیک و استایل‌های مدرن
             </p>
             <div className="divider"></div>
           </div>
@@ -97,7 +96,7 @@ const ServicesPage = () => {
                   <img src={service.image} alt={service.title} />
                   {service.badge && (
                     <span
-                      className={`badge ${service.badge === 'Popular' ? 'popular' : 'new'
+                      className={`badge ${service.badge === 'محبوب' ? 'popular' : 'new'
                         }`}
                     >
                       {service.badge}
