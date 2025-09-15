@@ -84,7 +84,6 @@ const ServicesPage = () => {
             <p className="services-subtitle">
               اصلاح دقیق، آرایش کلاسیک و استایل‌های مدرن
             </p>
-            <div className="divider"></div>
           </div>
           <div className="services-grid">
             {services.map((service, index) => (

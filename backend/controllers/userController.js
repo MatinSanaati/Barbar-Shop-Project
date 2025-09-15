@@ -55,6 +55,11 @@ exports.login = async (req, res) => {
         // چک کردن وجود کاربر در دیتابیس
         const user = await User.login(phone);
 
+        // ✅ به‌روزرسانی زمان آخرین لاگین
+        db.run("UPDATE users SET last_login = datetime('now') WHERE id = ?", [user.id], (err) => {
+            if (err) console.error('خطا در به‌روزرسانی last_login:', err);
+        });
+
         // ✅ تعیین نقش: اگر شماره ادمین بود، نقش admin بده
         const role = phone === process.env.ADMIN_PHONE ? 'admin' : user.role;
 

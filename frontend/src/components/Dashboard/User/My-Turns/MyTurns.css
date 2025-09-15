@@ -1,4 +1,4 @@
-/* MyTurns.css */
+/* src/components/Dashboard/User/My-Turns/My-Turns.css */
 
 /* --- ظاهر کلی --- */
 .booking-container {
@@ -7,18 +7,18 @@
     padding: 1rem;
 }
 
-.title {
+.appointments-title {
     text-align: center;
-    color: #d4af37;
+    color: var(--primary);
+    margin-bottom: 1rem;
     font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 1rem;
 }
 
 .underline {
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
     margin: 0.5rem auto;
     border-radius: 2px;
     animation: slideIn 0.8s ease-out;
@@ -40,17 +40,17 @@
 .empty-state {
     text-align: center;
     padding: 3rem 1.5rem;
-    background: #1e1e1e;
-    border: 1px dashed #444;
+    background: var(--card-bg);
+    border: 1px dashed var(--border);
     border-radius: 12px;
-    color: #ccc;
+    color: var(--text-secondary);
     font-size: 1.1rem;
     margin: 1.5rem 0;
     animation: fadeIn 0.5s ease;
 }
 
 .error-message {
-    color: #f44336;
+    color: var(--danger);
 }
 
 /* --- لیست نوبت‌ها --- */
@@ -63,36 +63,35 @@
     gap: 1rem;
 }
 
-.appointment-item {
+.appointment-card {
     display: flex;
     align-items: center;
-    background: #222;
-    border: 1px solid #333;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 1.2rem;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     opacity: 0;
     transform: translateY(20px);
     animation: slideUp 0.6s ease forwards;
 }
 
-.appointment-item:nth-child(1) {
+.appointment-card:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.appointment-item:nth-child(2) {
+.appointment-card:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.appointment-item:nth-child(3) {
+.appointment-card:nth-child(3) {
     animation-delay: 0.3s;
 }
 
-.appointment-item:hover {
+.appointment-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(212, 175, 55, 0.3);
-    border-color: #444;
 }
 
 .icon {
@@ -103,31 +102,31 @@
 
 .info h3 {
     margin: 0 0 0.5rem 0;
-    color: #fff;
+    color: var(--text);
     font-size: 1.25rem;
     font-weight: 600;
 }
 
 .info p {
     margin: 0.3rem 0;
-    color: #ccc;
+    color: var(--text-secondary);
     font-size: 0.95rem;
 }
 
 .info p strong {
-    color: #d4af37;
+    color: var(--primary);
 }
 
 .created-at {
     display: block;
     margin-top: 0.5rem;
-    color: #999;
+    color: var(--text-secondary);
     font-size: 0.85rem;
 }
 
 .status {
     margin-right: auto;
-    padding: 0.6rem 1rem;
+    padding: 0.6rem 1.1rem;
     border-radius: 8px;
     font-weight: bold;
     font-size: 0.95rem;
@@ -142,7 +141,7 @@
 }
 
 .status.confirmed {
-    background: #4caf50;
+    background: var(--accent);
     color: white;
 }
 
@@ -151,8 +150,27 @@
     color: white;
 }
 
-/* =============== انیمیشن‌ها =============== */
+.cancel-btn {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
+.cancel-btn:hover:not(:disabled) {
+    background: #da1e28;
+}
+
+.cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =============== انیمیشن‌ها =============== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -173,9 +191,8 @@
 }
 
 /* =============== ریسپانسیو =============== */
-
 @media (max-width: 768px) {
-    .appointment-item {
+    .appointment-card {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
@@ -192,7 +209,7 @@
         max-width: 200px;
     }
 
-    .title {
+    .appointments-title {
         font-size: 1.6rem;
     }
 }

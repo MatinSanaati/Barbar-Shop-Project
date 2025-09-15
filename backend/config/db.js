@@ -28,7 +28,9 @@ db.serialize(() => {
     phone TEXT UNIQUE NOT NULL,
     role TEXT NOT NULL DEFAULT 'user',
     otp TEXT,
-    otp_expires_at DATETIME
+    otp_expires_at DATETIME,
+    created_at TEXT DEFAULT (datetime('now')),
+    last_login TEXT DEFAULT (datetime('now'))
   )
 `, (err) => {
     if (err) {
@@ -37,38 +39,25 @@ db.serialize(() => {
       console.log('✅ جدول users ساخته شد یا قبلاً وجود داشت');
     }
 
-    // ✅ چک کردن وجود ستون‌های OTP با db.all()
-    const columnsToAdd = [
-      { sql: "ALTER TABLE users ADD COLUMN otp TEXT", name: "otp" },
-      { sql: "ALTER TABLE users ADD COLUMN otp_expires_at DATETIME", name: "otp_expires_at" }
-    ];
+    // ✅ اضافه کردن ستون created_at (اگر قبلاً نبود)
+    db.run("ALTER TABLE users ADD COLUMN created_at TEXT DEFAULT (datetime('now'))", (err) => {
+      if (err) {
+        console.log('ℹ️ ستون created_at قبلاً اضافه شده یا خطا داره');
+      } else {
+        console.log('✅ ستون created_at به جدول users اضافه شد');
+      }
+    });
 
-    columnsToAdd.forEach(({ sql, name }) => {
-      db.all(`PRAGMA table_info(users)`, (err, columns) => {
-        if (err) {
-          console.error('❌ خطا در چک ستون‌ها:', err);
-          return;
-        }
-
-        if (!Array.isArray(columns)) {
-          console.error('❌ خروجی PRAGMA table_info یه آرایه نیست!');
-          return;
-        }
-
-        const hasColumn = columns.some(col => col.name === name);
-        if (!hasColumn) {
-          db.run(sql, (err) => {
-            if (err) {
-              console.error(`❌ خطا در اضافه کردن ستون ${name}:`, err.message);
-            } else {
-              console.log(`✅ ستون ${name} به جدول users اضافه شد`);
-            }
-          });
-        }
-      });
+    // ✅ اضافه کردن ستون last_login
+    db.run("ALTER TABLE users ADD COLUMN last_login TEXT DEFAULT (datetime('now'))", (err) => {
+      if (err) {
+        console.log('ℹ️ ستون last_login قبلاً اضافه شده یا خطا داره');
+      } else {
+        console.log('✅ ستون last_login به جدول users اضافه شد');
+      }
     });
   });
-
+  
   // --- 2. جدول نوبت‌ها ---
   db.run(`
     CREATE TABLE IF NOT EXISTS turns (

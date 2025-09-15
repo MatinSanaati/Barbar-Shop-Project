@@ -1,8 +1,7 @@
 .services-page {
-    background: #121212;
-    color: #eaeaea;
+    background: var(--bg);
+    color: var(--text);
     font-family: "Segoe UI", sans-serif;
-    direction: rtl;
 }
 
 .services-main {
@@ -17,20 +16,20 @@
 .services-title {
     font-family: Georgia, serif;
     font-size: 2.5rem;
-    color: #d4af37;
+    color: var(--primary);
     margin-bottom: 10px;
 }
 
 .services-subtitle {
     font-size: 1.1rem;
-    color: #ccc;
+    color: var(--text-secondary);
     margin-bottom: 20px;
 }
 
 .divider {
     width: 80px;
     height: 3px;
-    background: linear-gradient(to left, #d4af37, transparent);
+    background: linear-gradient(to left, var(--primary), transparent);
     margin: 0 auto;
 }
 
@@ -41,10 +40,10 @@
 }
 
 .service-card {
-    background: #1e1e1e;
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lg);
     transform: translateY(30px);
     opacity: 0;
     transition: all 0.6s ease-out;
@@ -76,7 +75,7 @@
 }
 
 .badge.popular {
-    background: #d4af37;
+    background: var(--primary);
     color: #121212;
 }
 
@@ -92,12 +91,12 @@
 .service-content h3 {
     font-size: 1.3rem;
     margin-bottom: 10px;
-    color: #fff;
+    color: var(--text);
 }
 
 .service-content p {
     font-size: 0.95rem;
-    color: #ccc;
+    color: var(--text-secondary);
     margin-bottom: 15px;
     line-height: 1.7;
 }
@@ -106,14 +105,13 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
-    color: #d4af37;
+    color: var(--primary);
 }
 
 .service-meta i {
     margin-left: 6px;
 }
 
-/* انیمیشن تاخیر */
 .delay-1 {
     transition-delay: 0.2s;
 }
@@ -126,7 +124,6 @@
     transition-delay: 0.6s;
 }
 
-/* ریسپانسیو */
 @media (max-width: 768px) {
     .services-title {
         font-size: 2rem;

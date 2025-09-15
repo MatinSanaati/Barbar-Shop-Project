@@ -1,6 +1,6 @@
 .booking-section {
-    background: #1a1a1a;
-    color: #eaeaea;
+    background: var(--card-bg);
+    color: var(--text);
     padding: 80px 20px;
     opacity: 0;
     transition: opacity 0.8s ease;
@@ -20,17 +20,16 @@
     font-family: Georgia, serif;
     font-size: 2.5rem;
     margin-bottom: 10px;
-    color: #fff;
+    color: var(--text);
 }
 
 .underline {
     width: 80px;
     height: 3px;
-    background: #d4af37;
+    background: var(--primary);
     margin: 0 auto 30px auto;
 }
 
-/* Form Styles */
 .booking-form {
     display: flex;
     flex-direction: column;
@@ -48,6 +47,7 @@
     margin-bottom: 8px;
     font-weight: 600;
     font-size: 1rem;
+    color: var(--text);
 }
 
 .form-group input,
@@ -55,19 +55,19 @@
     padding: 12px 15px;
     font-size: 1rem;
     border-radius: 8px;
-    border: 1px solid #ccc;
-    background: #fff;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
     transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #d4af37;
+    border-color: var(--primary);
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* Time Slots */
 .time-grid {
     display: flex;
     flex-wrap: wrap;
@@ -78,23 +78,23 @@
 .time-slot {
     flex: 1 1 80px;
     padding: 10px 0;
-    background: #fff;
-    color: #1a1a1a;
-    border: 1px solid #ccc;
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .time-slot:hover:not(:disabled) {
-    background: #d4af37;
+    background: var(--primary);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
 .time-slot.selected {
-    background: #d4af37;
+    background: var(--primary);
     color: #fff;
     font-weight: 600;
 }
@@ -105,13 +105,12 @@
     cursor: not-allowed;
 }
 
-/* Submit Button */
 .btn-submit {
     padding: 14px 20px;
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 50px;
-    background: #d4af37;
+    background: var(--primary);
     border: none;
     color: #1a1a1a;
     cursor: pointer;
@@ -123,14 +122,12 @@
     box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
 }
 
-/* Success Message */
 .success-message {
     margin-top: 15px;
-    color: #d4af37;
+    color: var(--primary);
     font-weight: 600;
 }
 
-/* Animations */
 .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
@@ -158,7 +155,6 @@
     transition-delay: 0.7s;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .time-grid {
         flex-direction: column;

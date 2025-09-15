@@ -8,6 +8,23 @@ const MyTurns = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [theme, setTheme] = useState('dark');
+
+    // 🔹 بارگذاری تم از localStorage هنگام mount
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }, []);
+
+    // 🔹 تابع تغییر تم
+    const toggleTheme = () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
 
     // 🔹 دریافت نوبت‌ها از سرور
     useEffect(() => {
@@ -27,7 +44,7 @@ const MyTurns = () => {
     return (
         <div className="booking-page" dir="rtl">
             {/* 🔝 هدر */}
-            <Header />
+            <Header theme={theme} toggleTheme={toggleTheme} />
 
             {/* 🧱 بخش اصلی */}
             <main className="booking-main">
