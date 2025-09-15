@@ -30,6 +30,7 @@ const Footer = () => {
                         <ul className="footer-links">
                             <li><Link to="/user/privacy-policy"><i className="fas fa-user-secret"></i> حریم خصوصی</Link></li>
                             <li><Link to="/user/gallery"><i className="fas fa-images"></i> گالری</Link></li>
+                            <li><Link to="/user/help"><i className="fas fa-images"></i> راهنما</Link></li>
                         </ul>
                     </div>
                 </div>

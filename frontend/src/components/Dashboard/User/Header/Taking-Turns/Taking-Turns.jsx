@@ -55,17 +55,43 @@ const TakingturnsPage = () => {
 
     // 🔹 زمان‌های آزاد و رزروشده
     const availableTimes = ['۱۰:۰۰', '۱۱:۰۰', '۱۳:۰۰', '۱۴:۰۰', '۱۵:۰۰', '۱۶:۰۰', '۱۷:۰۰'];
-    const bookedTimes = ['۱۴:۰۰'];
+    const bookedTimes = ['۱۴:۰۰']; // بعداً از API بگیر
 
-    // 🔹 ارسال فرم
-    const handleSubmit = (e) => {
+    // 🔹 ارسال فرم — فقط این قسمت تغییر کرد!
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!service || !date || !time) {
             alert('لطفاً تمام فیلدها را قبل از ثبت پر کنید!');
             return;
         }
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000);
+
+        try {
+            const response = await fetch("http://localhost:5000/api/appointments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ service, date, time })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setService('');
+                setTime('');
+                setDate('');
+                setShowCalendar(false);
+
+                setSubmitted(true);
+                setTimeout(() => setSubmitted(false), 3000);
+            } else {
+                alert(`❌ خطا: ${result.error}`);
+            }
+        } catch (err) {
+            alert("❌ خطای شبکه: سرور در دسترس نیست");
+            console.error(err);
+        }
     };
 
     return (

@@ -86,6 +86,27 @@ db.serialize(() => {
     } else {
       console.log('✅ جدول turns ساخته شد یا قبلاً وجود داشت');
     }
+
+    // ✅ اضافه کردن ستون service اگر وجود نداشته باشه
+    db.run("ALTER TABLE turns ADD COLUMN service TEXT NOT NULL DEFAULT 'general'", (err) => {
+      if (err) {
+        // احتمالاً ستون قبلاً اضافه شده
+        console.log('ℹ️ ستون service قبلاً اضافه شده یا در حال حاضر موجود است');
+      } else {
+        console.log('✅ ستون service به جدول turns اضافه شد');
+      }
+    });
+
+    // ✅ اضافه کردن ستون created_at
+    db.run("ALTER TABLE turns ADD COLUMN created_at TEXT", (err) => {
+      if (err) {
+        console.log('ℹ️ ستون created_at قبلاً اضافه شده یا خطا داره');
+      } else {
+        console.log('✅ ستون created_at به جدول turns اضافه شد');
+        // ✅ تنظیم مقدار پیش‌فرض برای ردیف‌های قدیمی
+        db.run("UPDATE turns SET created_at = datetime('now') WHERE created_at IS NULL");
+      }
+    });
   });
 
   // --- 3. جدول پروفایل کاربران ---

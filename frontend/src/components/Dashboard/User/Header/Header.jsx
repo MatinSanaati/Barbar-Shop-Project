@@ -16,8 +16,7 @@ const Header = ({ theme, toggleTheme }) => {
         { path: "/user/taking-turns", label: "نوبت‌ دهی" },
         { path: "/user/contact", label: "تماس با من" },
         { path: "/user/blog", label: "بلاگ" },
-        { path: "/user/help", label: "راهنما" },
-        { path: "/user/gallery", label: "گالری" },
+        { path: "/user/my-turns", label: "نوبت های من" },
     ];
 
     const handleLogout = async () => {

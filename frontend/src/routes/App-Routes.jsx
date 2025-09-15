@@ -22,6 +22,7 @@ import UserAboutPage from "../components/Dashboard/User/Header/About/About";
 import UserTakingturnsPage from "../components/Dashboard/User/Header/Taking-Turns/Taking-Turns";
 import UserContactPage from "../components/Dashboard/User/Header/Contact/Contact";
 import UserBlogPage from "../components/Dashboard/User/Header/Blog/Blog";
+import UserMyTurnsPage from "../components/Dashboard/User/My-Turns/MyTurns";
 import UserHelpPage from "../components/Dashboard/User/Header/Help/Help";
 import UserGalleryPage from "../components/Dashboard/User/Footer/Gallery/Gallery";
 import UserPrivacyPolicyPage from "../components/Dashboard/User/Footer/Privacy-Policy/Privacy-Policy";
@@ -100,6 +101,7 @@ const AppRoutes = () => {
                     <Route path="taking-turns/*" element={<UserTakingturnsPage />} />
                     <Route path="contact/*" element={<UserContactPage />} />
                     <Route path="blog/*" element={<UserBlogPage />} />
+                    <Route path="my-turns/*" element={<UserMyTurnsPage />} />
                     <Route path="help/*" element={<UserHelpPage />} />
                     <Route path="gallery/*" element={<UserGalleryPage />} />
                     <Route path="privacy-policy/*" element={<UserPrivacyPolicyPage />} />
