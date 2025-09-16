@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // ✅ برای دکمه برگشت
+import { Link, useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = () => {
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         fullName: "",
         phone: "",
@@ -18,18 +20,17 @@ const Profile = () => {
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    // Fetch user data
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/users/me", {
+                const res = await fetch("http://localhost:5000/api/users/me", {
                     method: "GET",
                     credentials: "include",
                 });
-
-                if (response.ok) {
-                    const data = await response.json();
+                if (res.ok) {
+                    const data = await res.json();
                     const user = data.user;
-
                     const initialData = {
                         fullName: user.name || "کاربر",
                         phone: user.phone || "",
@@ -40,7 +41,6 @@ const Profile = () => {
                         }),
                         avatar: "",
                     };
-
                     setUserData(initialData);
                     setOriginalUserData({
                         fullName: initialData.fullName,
@@ -53,44 +53,33 @@ const Profile = () => {
                 setLoading(false);
             }
         };
-
         fetchUserData();
     }, []);
 
+    // تغییر فیلدها
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
     };
 
+    // ذخیره تغییرات
     const handleSave = async () => {
         const updates = {};
-        if (userData.fullName !== originalUserData.fullName) {
-            updates.name = userData.fullName;
-        }
-        if (userData.phone !== originalUserData.phone) {
-            updates.phone = userData.phone;
-        }
+        if (userData.fullName !== originalUserData.fullName) updates.name = userData.fullName;
+        if (userData.phone !== originalUserData.phone) updates.phone = userData.phone;
 
-        if (Object.keys(updates).length === 0) {
-            alert("هیچ تغییری اعمال نشد");
-            return;
-        }
+        if (!Object.keys(updates).length) return alert("هیچ تغییری اعمال نشد");
 
         try {
-            const response = await fetch("http://localhost:5000/api/users/update", {
+            const res = await fetch("http://localhost:5000/api/users/update", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
                 body: JSON.stringify(updates),
             });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                setOriginalUserData({
-                    fullName: userData.fullName,
-                    phone: userData.phone,
-                });
+            const result = await res.json();
+            if (res.ok) {
+                setOriginalUserData({ fullName: userData.fullName, phone: userData.phone });
                 setEditMode(false);
                 alert("اطلاعات با موفقیت بروزرسانی شد");
             } else {
@@ -101,28 +90,39 @@ const Profile = () => {
         }
     };
 
+    // تغییر آواتار
     const handleAvatarChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                setUserData({ ...userData, avatar: e.target.result });
-            };
+            reader.onload = (e) => setUserData({ ...userData, avatar: e.target.result });
             reader.readAsDataURL(e.target.files[0]);
         }
     };
 
-    if (loading) {
-        return <div className="profile-loader">در حال بارگذاری...</div>;
-    }
+    // خروج
+    const handleLogout = async () => {
+        try {
+            const res = await fetch("http://localhost:5000/api/users/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+            if (res.ok) navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert("خطا در خروج از حساب");
+        }
+    };
+
+    if (loading) return <div className="profile-loader">در حال بارگذاری...</div>;
 
     return (
         <div className="profile-page" dir="rtl">
-            {/* 🔹 دکمه برگشت به داشبورد */}
+            {/* دکمه برگشت */}
             <Link to="/user" className="back-to-dashboard">
                 <i className="fas fa-arrow-left"></i>
             </Link>
 
-            {/* بخش هدر پروفایل */}
+            {/* هدر و اطلاعات کاربر */}
             <div className="profile-hero">
                 <div className="avatar-container">
                     {userData.avatar ? (
@@ -145,38 +145,27 @@ const Profile = () => {
                 <p className="profile-joined">عضو از {userData.joined}</p>
             </div>
 
-            {/* اطلاعات کاربر */}
+            {/* تنظیمات و اطلاعات کاربر */}
             <div className="profile-details">
                 <div className="detail-card">
                     <label>نام و نام خانوادگی</label>
                     {editMode ? (
-                        <input
-                            type="text"
-                            name="fullName"
-                            value={userData.fullName}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="name" value={userData.fullName} onChange={handleChange} />
                     ) : (
                         <span>{userData.fullName}</span>
                     )}
                 </div>
-
                 <div className="detail-card">
                     <label>شماره موبایل</label>
                     {editMode ? (
-                        <input
-                            type="text"
-                            name="phone"
-                            value={userData.phone}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="phone" value={userData.phone} onChange={handleChange} />
                     ) : (
                         <span>{userData.phone}</span>
                     )}
                 </div>
             </div>
 
-            {/* دکمه‌ها */}
+            {/* عملیات */}
             <div className="profile-actions">
                 {editMode ? (
                     <>
@@ -188,9 +177,14 @@ const Profile = () => {
                         </button>
                     </>
                 ) : (
-                    <button className="btn edit" onClick={() => setEditMode(true)}>
-                        <i className="fas fa-edit"></i> ویرایش اطلاعات
-                    </button>
+                    <>
+                        <button className="btn edit" onClick={() => setEditMode(true)}>
+                            <i className="fas fa-edit"></i> ویرایش اطلاعات
+                        </button>
+                        <button className="btn logout" onClick={handleLogout}>
+                            <i className="fas fa-sign-out-alt"></i> خروج از حساب
+                        </button>
+                    </>
                 )}
             </div>
         </div>

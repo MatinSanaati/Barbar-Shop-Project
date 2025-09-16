@@ -1,11 +1,11 @@
 .user-login-icon {
-    fill: white;
-    stroke: white;
+    fill: var(--text);
+    stroke: var(--text);
     transition: all 0.3s ease;
     display: inline-block;
 }
 
 .user-login-icon:hover {
     transform: scale(1.1);
-    stroke: var(--gold);
+    stroke: var(--primary);
 }

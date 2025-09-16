@@ -1,4 +1,3 @@
-// routes/appointmentRoutes.js
 const express = require('express');
 const router = express.Router();
 const db = require('../../config/db');
@@ -13,7 +12,6 @@ router.post('/appointments', auth, (req, res) => {
         return res.status(400).json({ error: 'تمام فیلدها الزامی هستند' });
     }
 
-    // چک تداخل زمان
     db.get(
         'SELECT * FROM turns WHERE user_id = ? AND date = ? AND time = ?',
         [userId, date, time],
@@ -21,11 +19,10 @@ router.post('/appointments', auth, (req, res) => {
             if (err) return res.status(500).json({ error: 'خطا در بررسی نوبت' });
             if (existing) return res.status(409).json({ error: 'شما قبلاً نوبتی در این تاریخ و زمان دارید' });
 
-            // ذخیره نوبت
             const stmt = db.prepare(`
-                INSERT INTO turns (user_id, service, date, time, status)
-                VALUES (?, ?, ?, ?, 'pending')
-            `);
+        INSERT INTO turns (user_id, service, date, time, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, 'pending', datetime('now'), datetime('now'))
+      `);
             stmt.run([userId, service, date, time], function (err) {
                 if (err) return res.status(500).json({ error: 'خطا در ثبت نوبت' });
                 res.status(201).json({
@@ -46,37 +43,62 @@ router.get('/appointments/me', auth, (req, res) => {
         `SELECT id, service, date, time, status FROM turns WHERE user_id = ? ORDER BY date DESC, time ASC`,
         [userId],
         (err, appointments) => {
-            if (err) {
-                return res.status(500).json({ error: 'خطا در دریافت نوبت‌ها' });
-            }
+            if (err) return res.status(500).json({ error: 'خطا در دریافت نوبت‌ها' });
             res.json({ appointments });
         }
     );
 });
 
-// 🔹 لغو نوبت توسط کاربر
-router.delete('/appointments/:id', auth, (req, res) => {
-    const { id } = req.params;
-    const userId = req.user.id;
+// 🔹 دریافت تاریخ‌های رزرو شده (برای تقویم)
+router.get('/appointments/booked-dates', auth, (req, res) => {
+    db.all(
+        "SELECT DISTINCT date FROM turns WHERE status != 'canceled'",
+        [],
+        (err, rows) => {
+            if (err) return res.status(500).json({ error: err.message });
+            const dates = rows.map(r => r.date);
+            res.json(dates);
+        }
+    );
+});
 
-    // چک کن آیا نوبت وجود داره و متعلق به کاربره
+// 🔹 لغو نوبت توسط کاربر (PATCH)
+router.patch('/appointments/:id/cancel', auth, (req, res) => {
+    const id = req.params.id;
+    db.run(
+        "UPDATE turns SET status='canceled', updated_at=datetime('now') WHERE id=? AND user_id=?",
+        [id, req.user.id],
+        function (err) {
+            if (err) return res.status(500).json({ error: err.message });
+            if (this.changes === 0) return res.status(404).json({ error: 'نوبت پیدا نشد' });
+            res.json({ message: 'نوبت لغو شد' });
+        }
+    );
+});
+
+// 🔹 آپدیت نوبت (تغییر تاریخ/ساعت/سرویس)
+router.put('/appointments/:id', auth, (req, res) => {
+    const { date, time, service } = req.body;
+    const id = req.params.id;
+
+    if (!date || !time) return res.status(400).json({ error: 'تاریخ و ساعت لازم است' });
+
     db.get(
-        'SELECT * FROM turns WHERE id = ? AND user_id = ?',
-        [id, userId],
-        (err, appointment) => {
-            if (err) return res.status(500).json({ error: 'خطا در بررسی نوبت' });
-            if (!appointment) return res.status(404).json({ error: 'نوبت یافت نشد یا دسترسی ندارید' });
+        "SELECT * FROM turns WHERE date=? AND time=? AND status!='canceled' AND id!=?",
+        [date, time, id],
+        (err, row) => {
+            if (err) return res.status(500).json({ error: err.message });
+            if (row) return res.status(400).json({ error: 'این زمان قبلاً رزرو شده' });
 
-            // فقط نوبت‌های pending قابل لغو هستن
-            if (appointment.status !== 'pending') {
-                return res.status(403).json({ error: 'این نوبت قابل لغو نیست' });
-            }
-
-            // لغو نوبت
-            db.run('UPDATE turns SET status = "canceled" WHERE id = ?', [id], function (err) {
-                if (err) return res.status(500).json({ error: 'خطا در لغو نوبت' });
-                res.json({ message: 'نوبت با موفقیت لغو شد' });
-            });
+            db.run(
+                "UPDATE turns SET date=?, time=?, service=?, updated_at=datetime('now') WHERE id=? AND user_id=?",
+                [date, time, service || 'general', id, req.user.id],
+                function (err) {
+                    if (err) return res.status(500).json({ error: err.message });
+                    if (this.changes === 0) return res.status(404).json({ error: 'نوبت پیدا نشد' });
+                    res.json({ message: 'نوبت آپدیت شد' });
+                }
+            );
         }
     );
 });

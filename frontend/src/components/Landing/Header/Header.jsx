@@ -1,50 +1,102 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import "./Header.css";
 
 import SunIcon from "../../icons/Sun-Icon";
 import MoonIcon from "../../icons/Moon-Icon";
+import UserLoginIcon from "../../icons/User-Login-Icon";
+import { Link } from "react-router-dom";
 
-import "./Header.css";
-import UserRegistrationIcon from "../../icons/User-Login-Icon";
-
-const Header = ({ theme, toggleTheme }) => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const navigate = useNavigate();
-
-    // آیتم‌های منو
+const Header = ({ initialTheme = "light" }) => {
     const menuItems = [
-        { path: "/services", label: "خدمات" },
-        { path: "/about", label: "درباره من" },
-        { path: "/taking-turns", label: "نوبت‌دهی" },
-        { path: "/contact", label: "تماس با من" },
         { path: "/blog", label: "بلاگ" },
-        { path: "/help", label: "راهنما" },
-        { path: "/gallery", label: "گالری" },
+        { path: "/contact", label: "تماس با من" },
+        { path: "/taking-turns", label: "نوبت‌ دهی" },
+        { path: "/about", label: "درباره من" },
+        { path: "/services", label: "خدمات" },
     ];
+
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || initialTheme;
+    });
+
+    const menuRef = useRef(null);
+    const lastActiveRef = useRef(null);
+
+    // اعمال تم و ذخیره در localStorage
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    // اسکرول هدر
+    useEffect(() => {
+        function onScroll() {
+            setScrolled(window.scrollY > 20);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    // کلید Escape برای موبایل
+    useEffect(() => {
+        function onKey(e) {
+            if (!mobileOpen) return;
+            if (e.key === "Escape") closeMobile();
+        }
+        document.addEventListener("keydown", onKey);
+        return () => document.removeEventListener("keydown", onKey);
+    }, [mobileOpen]);
+
+    function openMobile() {
+        lastActiveRef.current = document.activeElement;
+        setMobileOpen(true);
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMobile() {
+        setMobileOpen(false);
+        document.body.style.overflow = "";
+        if (lastActiveRef.current) lastActiveRef.current.focus();
+    }
+
+    function toggleTheme() {
+        setTheme((t) => (t === "dark" ? "light" : "dark"));
+    }
 
     return (
         <>
-            {/* ========== هدر اصلی ========== */}
-            <header className="main-header">
-                <div className="container">
+            <header
+                className={`header-root ${scrolled ? "header-scrolled" : ""}`}
+            >
+                <div className="header-container" style={{ justifyContent: "space-between" }}>
+                    {/* سمت راست: لوگو + همبرگر */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", flexDirection: "row-reverse" }}>
+                        {/* لوگو */}
+                        <div className="brand">
+                            <Link to="/" className="brand-link">
+                                <i className="fas fa-cut"></i>
+                                <span>آرایشگاه مردانه</span>
+                            </Link>
+                        </div>
 
-                    {/* دکمه منوی موبایل */}
-                    <button
-                        className="mobile-toggle"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label={mobileMenuOpen ? "بستن منو" : "باز کردن منو"}
-                    >
-                        <i className={mobileMenuOpen ? "fas fa-times" : "fas fa-bars"}></i>
-                    </button>
-
-                    {/* لوگو */}
-                    <Link to="/" className="logo">
-                        <i className="fas fa-cut"></i>
-                        <span>آرایشگاه مردانه</span>
-                    </Link>
+                        {/* دکمه موبایل */}
+                        <button
+                            className={`mobile-toggle ${mobileOpen ? "open" : ""}`}
+                            aria-label={mobileOpen ? "بستن منو" : "باز کردن منو"}
+                            aria-expanded={mobileOpen}
+                            aria-controls="mobile-menu"
+                            onClick={() => (mobileOpen ? closeMobile() : openMobile())}
+                        >
+                            <span className="hamburger">
+                                <span></span><span></span><span></span>
+                            </span>
+                        </button>
+                    </div>
 
                     {/* ناوبری دسکتاپ */}
-                    <nav className="desktop-nav">
+                    <nav className="nav-desktop" aria-label="ناوبری اصلی">
                         <ul>
                             {menuItems.map((item) => (
                                 <li key={item.path}>
@@ -56,57 +108,56 @@ const Header = ({ theme, toggleTheme }) => {
                         </ul>
                     </nav>
 
-                    {/* دکمه‌های عملیاتی: تم و پروفایل */}
-                    <div className="header-actions">
-
-                        {/* آواتار کاربر */}
-                        <Link to="/auth-layout" className="profile-avatar-link" aria-label="ورود به حساب کاربری">
-                            <UserRegistrationIcon className="user-registration-icon-svg" size={36} />
+                    {/* سمت چپ: دکمه لاگین + تغییر تم */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        {/* دکمه لاگین */}
+                        <Link to="/auth-layout" className="profile-btn" aria-label="ورود">
+                            <UserLoginIcon size={34} />
                         </Link>
 
                         {/* دکمه تم */}
-                        <button className="theme-btn" onClick={toggleTheme} aria-label="تغییر تم">
-                            {theme === "dark" ? (
-                                <SunIcon className="theme-icon" size={24} />
-                            ) : (
-                                <MoonIcon className="theme-icon" size={24} />
-                            )}
+                        <button className="theme-toggle" onClick={toggleTheme} aria-label="تغییر تم">
+                            {theme === "dark" ? <SunIcon className="theme-icon" size={22} /> : <MoonIcon className="theme-icon" size={22} />}
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* ========== منوی موبایل (Overlay) ========== */}
-            <div className={`mobile-menu-overlay ${mobileMenuOpen ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
-                <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-                    <div className="mobile-header">
-                        <Link to="/" className="mobile-logo" onClick={() => setMobileMenuOpen(false)}>
+            {/* منوی موبایل */}
+            <div
+                className={`mobile-overlay ${mobileOpen ? "active" : ""}`}
+                role="dialog"
+                aria-modal="true"
+                aria-hidden={!mobileOpen}
+                onClick={closeMobile}
+            >
+                <aside className="mobile-panel" ref={menuRef} onClick={(e) => e.stopPropagation()} id="mobile-menu">
+                    <div className="mobile-panel-header">
+                        <Link to="/" className="mobile-brand">
                             <i className="fas fa-cut"></i>
                             <span>آرایشگاه مردانه</span>
                         </Link>
-                        <button
-                            className="close-btn"
-                            onClick={() => setMobileMenuOpen(false)}
-                            aria-label="بستن منو"
-                        >
-                            <i className="fas fa-times"></i>
+                        <button className="mobile-close" aria-label="بستن منو" onClick={closeMobile}>
+                            &times;
                         </button>
                     </div>
 
-                    <ul className="mobile-nav-list">
-                        {menuItems.map((item) => (
-                            <li key={item.path}>
-                                <Link
-                                    to={item.path}
-                                    className="mobile-nav-link"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    <nav className="mobile-nav" aria-label="منوی موبایل">
+                        <ul className="mobile-nav">
+                            {menuItems.map((item) => (
+                                <li key={item.path}>
+                                    <Link
+                                        to={item.path}
+                                        className="mobile-link"
+                                        onClick={() => setMobileOpen(false)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </aside>
             </div>
         </>
     );

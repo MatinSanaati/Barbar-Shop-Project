@@ -1,376 +1,350 @@
-/* ==================== */
-/* ==== تنظیمات عمومی ==== */
-/* ==================== */
-
-:root {
-    --gold: #d4af37;
-    --gold-light: #f4d06f;
-    --dark-bg: #121212;
-    --light-bg: #ffffff;
-    --text-dark: #ffffff;
-    --text-light: #212529;
-    --border-dark: rgba(212, 175, 55, 0.2);
-    --border-light: rgba(184, 134, 11, 0.15);
-    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-[data-theme="light"] {
-    --bg: var(--light-bg);
-    --text: var(--text-light);
-    --border: var(--border-light);
-    --shadow: var(--shadow-sm);
-}
-
-[data-theme="dark"] {
-    --bg: var(--dark-bg);
-    --text: var(--text-dark);
-    --border: var(--border-dark);
-    --shadow: var(--shadow-lg);
-}
-
-/* ==================== */
-/* ====== هدر اصلی ====== */
-/* ==================== */
-
-.main-header {
+.header-root {
     position: sticky;
     top: 0;
-    z-index: 1000;
-    background: var(--bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow);
     width: 100%;
+    z-index: 1200;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    transition: background 280ms ease, box-shadow 280ms ease, transform 280ms ease;
+    direction: rtl;
+    text-align: right;
 }
 
-.container {
+.header-scrolled {
+    background: color-mix(in srgb, var(--card-bg) 80%, black 6%);
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+/* کانتینر مرکزی تا 1200px */
+.header-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+    height: 72px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    height: 70px;
+    gap: 1rem;
 }
 
-/* ==================== */
-/* ======= لوگو ======= */
-/* ==================== */
-
-.logo {
+/* برند/لوگو */
+.brand-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
+    color: var(--primary);
     text-decoration: none;
-    color: var(--gold);
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
 }
 
-.logo i {
-    font-size: 1.4rem;
+.brand-mark svg {
+    color: var(--primary);
 }
 
-/* ==================== */
-/* ==== ناوبری دسکتاپ ==== */
-/* ==================== */
+.brand-title {
+    color: var(--text);
+    font-weight: 700;
+}
 
-.desktop-nav ul {
+/* ناوبری دسکتاپ */
+.nav-desktop ul {
     display: flex;
+    flex-direction: row-reverse;
+    /* راست‌چین */
+    gap: 1rem;
     list-style: none;
-    gap: 1.5rem;
 }
 
 .nav-link {
     color: var(--text);
     text-decoration: none;
-    font-size: 0.95rem;
     font-weight: 500;
-    padding: 0.5rem 0.8rem;
+    padding: 0.5rem 0.7rem;
     border-radius: 8px;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+    font-size: 0.96rem;
 }
 
 .nav-link:hover,
-.nav-link.active {
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--gold);
+.nav-link:focus {
+    color: var(--primary);
+    transform: translateY(-3px);
+    outline: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-/* ==================== */
-/* ==== دکمه‌های هدر ==== */
-/* ==================== */
-
+/* اکشن‌ها */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.6rem;
+    flex-direction: row-reverse;
+    /* راست‌چین */
 }
 
-/* دکمه تم */
-.theme-btn {
-    color: var(--gold-light);
-    background: none;
+.theme-toggle {
+    background: transparent;
     border: none;
+    padding: 0.45rem;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.6rem;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1.5px var(--border);
-    transition: var(--transition);
+    color: var(--primary);
 }
 
-.theme-btn:hover {
-    background: rgba(212, 175, 55, 0.1);
-    transform: rotate(10deg);
+.theme-toggle:focus {
+    outline: 3px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    outline-offset: 3px;
 }
 
-.theme-icon {
-    width: 1.3rem;
-    height: 1.3rem;
-    color: var(--gold-light);
-    transition: var(--transition);
-}
-
-.theme-btn:hover .theme-icon {
-    color: var(--gold);
-}
-
-/* آواتار پروفایل */
-.profile-avatar-link {
-    display: flex;
+.profile-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-}
-
-.user-registration-icon-svg {
-    width: 28px;
-    height: 28px;
-    color: var(--gold-light);
-    border-radius: 50%;
-    padding: 3px;
-    background-color: var(--bg);
-    box-shadow: 0 0 0 1.5px var(--border);
-    transition: all 0.3s ease;
-}
-
-.user-registration-icon-svg:hover {
-    color: var(--gold);
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2.5px rgba(212, 175, 55, 0.4);
-}
-
-.profile-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--gold);
-    transition: var(--transition);
-    box-shadow: 0 0 0 2px var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
-.profile-avatar:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 3px var(--gold-light);
+.profile-btn:hover {
+    transform: scale(1.03);
 }
 
-/* ==================== */
-/* === دکمه منوی موبایل === */
-/* ==================== */
-
+/* دکمه موبایل (هامبرگر) */
 .mobile-toggle {
     display: none;
     background: none;
     border: none;
-    color: var(--gold);
-    font-size: 1.3rem;
+    padding: 0.4rem;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.5rem;
 }
 
-/* ==================== */
-/* ====== منوی موبایل ====== */
-/* ==================== */
+.hamburger {
+    display: inline-block;
+    width: 28px;
+    height: 20px;
+    position: relative;
+}
 
-.mobile-menu-overlay {
+.hamburger span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 300ms cubic-bezier(.2, .9, .2, 1), opacity 200ms ease;
+}
+
+.hamburger span:nth-child(1) {
+    top: 0;
+}
+
+.hamburger span:nth-child(2) {
+    top: 9px;
+}
+
+.hamburger span:nth-child(3) {
+    bottom: 0;
+}
+
+/* وقتی باز است */
+.mobile-toggle.open .hamburger span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-toggle.open .hamburger span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-toggle.open .hamburger span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* --- اوورلی موبایل --- */
+.mobile-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1001;
-    opacity: 0;
-    visibility: hidden;
+    z-index: 1300;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     pointer-events: none;
-    transition: opacity 0.3s ease;
 }
 
-.mobile-menu-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
+.mobile-overlay.active {
+    pointer-events: auto;
 }
 
-.mobile-menu {
-    width: 85%;
-    max-width: 320px;
+.mobile-overlay::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.0);
+    transition: background 360ms cubic-bezier(.2, .9, .2, 1);
+    pointer-events: none;
+}
+
+.mobile-overlay.active::before {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+/* پانل موبایل (اسلاید از راست) */
+.mobile-panel {
+    width: min(360px, 86vw);
     height: 100vh;
-    background: var(--bg);
-    border-left: 1px solid var(--border);
-    padding: 1.5rem 1rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    overflow-y: auto;
-}
-
-.mobile-menu-overlay.active .mobile-menu {
-    transform: translateX(0);
-}
-
-.mobile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.mobile-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--gold);
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 1.1rem;
-}
-
-.close-btn {
-    background: none;
-    border: none;
+    background: var(--card-bg);
     color: var(--text);
-    font-size: 1.3rem;
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.12);
+    transform: translateX(-110%);
+    transition: transform 520ms cubic-bezier(.22, .9, .3, 1), opacity 260ms ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+}
+
+.mobile-overlay.active .mobile-panel {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* header داخل پنل موبایل */
+.mobile-panel-header {
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.mobile-close {
+    background: none;
+    border: 0;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text);
     cursor: pointer;
 }
 
-/* لیست منوی موبایل */
-.mobile-nav-list {
+/* لینک‌های موبایل */
+.mobile-nav ul {
     list-style: none;
-    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0;
+    margin: 0;
+    text-align: right;
 }
 
-.mobile-nav-link {
-    display: block;
-    color: var(--text);
+.mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    padding: 0.9rem 0.8rem;
+    border-radius: 10px;
     text-decoration: none;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
+    color: var(--text);
+    background: transparent;
+    transition: background 220ms ease, transform 220ms ease;
     font-size: 1rem;
-    transition: var(--transition);
 }
 
-.mobile-nav-link:hover,
-.mobile-nav-link.active {
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--gold);
+.mobile-link:hover {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    transform: translateX(6px);
+    color: var(--primary);
 }
 
-/* ==================== */
-/* ====== ریسپانسیو ====== */
-/* ==================== */
-
-/* --- دسکتاپ بزرگ --- */
-@media (max-width: 1200px) {
-    .desktop-nav {
+/* ریسپانسیو */
+@media (max-width: 1000px) {
+    .nav-desktop {
         display: none;
     }
 
     .mobile-toggle {
-        display: block;
+        display: inline-flex;
     }
 }
 
-/* --- تبلت و موبایل متوسط (768px) --- */
-@media (max-width: 768px) {
-    .header-actions {
-        gap: 0.8rem;
+@media (max-width: 900px) {
+    .header-container {
+        padding: 0 0.9rem;
     }
 
-    .theme-icon,
-    .login-icon {
-        width: 1.2rem;
-        height: 1.2rem;
-    }
-
-    .profile-avatar {
-        width: 36px;
-        height: 36px;
+    .brand-title {
+        font-size: 0.98rem;
     }
 }
 
-/* --- موبایل کوچک (480px) --- */
 @media (max-width: 480px) {
-    .container {
-        padding: 0 0.75rem;
+    .header-container {
+        height: 64px;
+        padding: 0 0.7rem;
     }
 
-    .logo span {
+    .brand-title {
         display: none;
     }
 
-    .logo i {
-        font-size: 1.7rem;
-    }
-
-    .mobile-menu {
-        width: 90%;
-    }
-
-    .mobile-nav-link {
-        font-size: 0.95rem;
-        padding: 0.7rem 1rem;
-    }
-
-    .mobile-theme-btn span,
-    .mobile-login-btn {
-        font-size: 0.9rem;
-    }
-
-    .user-icon {
-        transform: scale(.8);
-    }
-
-    .theme-btn {
-        transform: scale(.8);
+    .mobile-panel {
+        width: 92vw;
     }
 }
 
-/* --- موبایل بسیار کوچک (320px) --- */
-@media (max-width: 320px) {
-    .mobile-menu {
-        width: 100%;
+/* 📱 خیلی کوچک (تا 100px) */
+@media (max-width: 100px) {
+    .header-container {
+        flex-direction: column;
+        height: auto;
+        gap: 0.3rem;
+        padding: 0.3rem;
     }
 
-    .mobile-logo span {
-        font-size: 0.95rem;
+    .brand-title {
+        display: none;
     }
 
-    .mobile-nav-link,
-    .mobile-theme-btn,
-    .mobile-login-btn {
-        font-size: 0.85rem;
-        padding: 0.6rem 0.9rem;
+    .profile-btn {
+        width: 28px;
+        height: 28px;
     }
 
-    .profile-avatar {
-        width: 32px;
-        height: 32px;
+    .theme-toggle {
+        padding: 0.2rem;
+    }
+
+    .mobile-toggle .hamburger {
+        width: 20px;
+        height: 14px;
+    }
+
+    .mobile-panel {
+        width: 100vw;
+        padding: 0.5rem;
+    }
+
+    .mobile-link {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.5rem;
     }
 }

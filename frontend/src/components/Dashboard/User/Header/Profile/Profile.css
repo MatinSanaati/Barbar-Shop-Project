@@ -1,4 +1,15 @@
-/* src/components/Dashboard/User/Profile/Profile.css */
+:root {
+    --bg: #1e1e2f;
+    --card-bg: #2a2a3c;
+    --input-bg: #2f2f44;
+    --text: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --primary: #ffd700;
+    --primary-hover: #ffea00;
+    --accent: #ff6b6b;
+    --border: #444455;
+    --shadow-lg: rgba(0, 0, 0, 0.5);
+}
 
 .profile-page {
     min-height: 100vh;
@@ -11,6 +22,7 @@
     color: var(--text);
 }
 
+/* دکمه برگشت */
 .back-to-dashboard {
     position: absolute;
     top: 20px;
@@ -25,7 +37,7 @@
     align-items: center;
     gap: 6px;
     transition: 0.3s;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 6px var(--shadow-lg);
 }
 
 .back-to-dashboard:hover {
@@ -33,6 +45,7 @@
     transform: translateY(-2px);
 }
 
+/* هدر پروفایل */
 .profile-hero {
     text-align: center;
     margin-bottom: 3rem;
@@ -98,6 +111,7 @@
     color: var(--text-secondary);
 }
 
+/* جزئیات پروفایل */
 .profile-details {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -107,7 +121,7 @@
 }
 
 .detail-card {
-    background: rgba(255, 255, 255, 0.07);
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 1.5rem;
     transition: 0.3s;
@@ -116,7 +130,7 @@
 }
 
 .detail-card:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .detail-card label {
@@ -126,8 +140,7 @@
     font-weight: 600;
 }
 
-.detail-card input,
-.detail-card span {
+.detail-card input {
     font-size: 1rem;
     padding: 0.7rem 1rem;
     border-radius: 12px;
@@ -142,6 +155,7 @@
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
+/* دکمه‌ها */
 .profile-actions {
     margin-top: 2.5rem;
     display: flex;
@@ -172,11 +186,22 @@
     color: #fff;
 }
 
+.btn.edit {
+    background: var(--primary);
+    color: #000;
+}
+
+.btn.logout {
+    background: #ff3b3b;
+    color: #fff;
+}
+
 .btn:hover {
     transform: translateY(-3px);
     opacity: 0.9;
 }
 
+/* Loader */
 .profile-loader {
     display: flex;
     justify-content: center;
@@ -198,7 +223,42 @@
     }
 }
 
-@media (max-width: 480px) {
+/* واکنش‌گرایی کامل */
+@media (max-width: 1200px) {
+    .profile-hero {
+        margin-bottom: 2.5rem;
+    }
+
+    .avatar-img,
+    .avatar-icon {
+        width: 130px;
+        height: 130px;
+    }
+
+    .profile-name {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .avatar-img,
+    .avatar-icon {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-name {
+        font-size: 1.6rem;
+    }
+
+    .detail-card input,
+    .detail-card span {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
 
     .avatar-img,
     .avatar-icon {
@@ -208,5 +268,61 @@
 
     .profile-name {
         font-size: 1.5rem;
+    }
+
+    .profile-details {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .avatar-img,
+    .avatar-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 1.4rem;
+    }
+
+    .detail-card input,
+    .detail-card span {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .avatar-img,
+    .avatar-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-name {
+        font-size: 1.2rem;
+    }
+
+    .profile-joined {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 320px) {
+
+    .avatar-img,
+    .avatar-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-name {
+        font-size: 1.1rem;
+    }
+
+    .profile-joined {
+        font-size: 0.8rem;
     }
 }
