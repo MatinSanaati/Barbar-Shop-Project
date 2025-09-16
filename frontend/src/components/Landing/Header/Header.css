@@ -244,6 +244,22 @@
     cursor: pointer;
 }
 
+/* لینک فعال دسکتاپ */
+.nav-link.active {
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border-bottom: 3px solid var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* لینک فعال موبایل */
+.mobile-link.active {
+    background: color-mix(in srgb, var(--primary) 15%, transparent);
+    border-right: 3px solid var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
 /* لینک‌های موبایل */
 .mobile-nav ul {
     list-style: none;

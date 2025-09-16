@@ -236,27 +236,6 @@
     transform: translateY(-2px);
 }
 
-.signup-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    max-width: 70%;
-    margin-top: 1rem;
-}
-
-.signup-link a {
-    color: #d4af37;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    cursor: pointer;
-    transition: all ease-in-out .1s;
-}
-
-.signup-link a:hover {
-    transform: scale(1.1);
-}
-
 /* افکت label شناور */
 .input-wrapper {
     position: relative;

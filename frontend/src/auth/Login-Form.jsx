@@ -115,13 +115,6 @@ const LoginForm = ({ onSwitch }) => {
                 <button type="submit" className="btn btn-primary">
                     <i className="fas fa-sign-in-alt"></i> ورود
                 </button>
-
-                <div className="signup-link">
-                    حساب کاربری ندارید؟{" "}
-                    <a href="#" onClick={(e) => { e.preventDefault(); onSwitch("register"); }}>
-                        ثبت‌ نام کنید
-                    </a>
-                </div>
             </form>
         </div>
     );

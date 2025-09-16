@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Header.css";
+import { Link, useLocation } from "react-router-dom";
 
 import SunIcon from "../../icons/Sun-Icon";
 import MoonIcon from "../../icons/Moon-Icon";
 import UserLoginIcon from "../../icons/User-Login-Icon";
-import { Link } from "react-router-dom";
+
+import "./Header.css";
 
 const Header = ({ initialTheme = "light" }) => {
+    const location = useLocation();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || initialTheme;
+    });
+
     const menuItems = [
         { path: "/blog", label: "بلاگ" },
         { path: "/contact", label: "تماس با من" },
@@ -14,12 +22,6 @@ const Header = ({ initialTheme = "light" }) => {
         { path: "/about", label: "درباره من" },
         { path: "/services", label: "خدمات" },
     ];
-
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem("theme") || initialTheme;
-    });
 
     const menuRef = useRef(null);
     const lastActiveRef = useRef(null);
@@ -100,7 +102,10 @@ const Header = ({ initialTheme = "light" }) => {
                         <ul>
                             {menuItems.map((item) => (
                                 <li key={item.path}>
-                                    <Link to={item.path} className="nav-link">
+                                    <Link
+                                        to={item.path}
+                                        className={`nav-link ${location.pathname === item.path ? "active" : ""}`}
+                                    >
                                         {item.label}
                                     </Link>
                                 </li>
@@ -148,7 +153,7 @@ const Header = ({ initialTheme = "light" }) => {
                                 <li key={item.path}>
                                     <Link
                                         to={item.path}
-                                        className="mobile-link"
+                                        className={`mobile-link ${location.pathname === item.path ? "active" : ""}`}
                                         onClick={() => setMobileOpen(false)}
                                     >
                                         {item.label}
