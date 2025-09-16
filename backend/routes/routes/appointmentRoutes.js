@@ -4,7 +4,7 @@ const db = require('../../config/db');
 const auth = require('../../middleware/auth');
 
 // 🔹 ثبت نوبت جدید
-router.post('/appointments', auth, (req, res) => {
+router.post('/appointments', auth, async (req, res) => {
     const { service, date, time } = req.body;
     const userId = req.user.id;
 
@@ -12,95 +12,108 @@ router.post('/appointments', auth, (req, res) => {
         return res.status(400).json({ error: 'تمام فیلدها الزامی هستند' });
     }
 
-    db.get(
-        'SELECT * FROM turns WHERE user_id = ? AND date = ? AND time = ?',
-        [userId, date, time],
-        (err, existing) => {
-            if (err) return res.status(500).json({ error: 'خطا در بررسی نوبت' });
-            if (existing) return res.status(409).json({ error: 'شما قبلاً نوبتی در این تاریخ و زمان دارید' });
+    try {
+        const existing = await db.query(
+            'SELECT * FROM turns WHERE user_id = $1 AND date = $2 AND time = $3 AND status != $4',
+            [userId, date, time, 'canceled']
+        );
 
-            const stmt = db.prepare(`
-        INSERT INTO turns (user_id, service, date, time, status, created_at, updated_at)
-        VALUES (?, ?, ?, ?, 'pending', datetime('now'), datetime('now'))
-      `);
-            stmt.run([userId, service, date, time], function (err) {
-                if (err) return res.status(500).json({ error: 'خطا در ثبت نوبت' });
-                res.status(201).json({
-                    message: 'نوبت با موفقیت ثبت شد',
-                    appointment: { id: this.lastID, service, date, time, status: 'pending' }
-                });
-            });
-            stmt.finalize();
+        if (existing.rows.length > 0) {
+            return res.status(409).json({ error: 'شما قبلاً نوبتی در این تاریخ و زمان دارید' });
         }
-    );
+
+        const result = await db.query(
+            `INSERT INTO turns (user_id, barber_id, service, date, time, status, created_at, updated_at)
+       VALUES ($1, NULL, $2, $3, $4, 'pending', NOW(), NOW()) RETURNING *`,
+            [userId, service, date, time]
+        );
+
+        res.status(201).json({
+            message: 'نوبت با موفقیت ثبت شد',
+            appointment: result.rows[0]
+        });
+    } catch (err) {
+        console.error('خطا در ثبت نوبت:', err);
+        res.status(500).json({ error: 'خطا در ثبت نوبت' });
+    }
 });
 
 // 🔹 دریافت نوبت‌های کاربر
-router.get('/appointments/me', auth, (req, res) => {
+router.get('/appointments/me', auth, async (req, res) => {
     const userId = req.user.id;
 
-    db.all(
-        `SELECT id, service, date, time, status FROM turns WHERE user_id = ? ORDER BY date DESC, time ASC`,
-        [userId],
-        (err, appointments) => {
-            if (err) return res.status(500).json({ error: 'خطا در دریافت نوبت‌ها' });
-            res.json({ appointments });
-        }
-    );
+    try {
+        const result = await db.query(
+            `SELECT id, service, date, time, status FROM turns 
+       WHERE user_id = $1 AND status != 'canceled'
+       ORDER BY date DESC, time ASC`,
+            [userId]
+        );
+        res.json({ appointments: result.rows });
+    } catch (err) {
+        res.status(500).json({ error: 'خطا در دریافت نوبت‌ها' });
+    }
 });
 
-// 🔹 دریافت تاریخ‌های رزرو شده (برای تقویم)
-router.get('/appointments/booked-dates', auth, (req, res) => {
-    db.all(
-        "SELECT DISTINCT date FROM turns WHERE status != 'canceled'",
-        [],
-        (err, rows) => {
-            if (err) return res.status(500).json({ error: err.message });
-            const dates = rows.map(r => r.date);
-            res.json(dates);
-        }
-    );
+// 🔹 دریافت تاریخ‌های رزرو شده
+router.get('/appointments/booked-dates', auth, async (req, res) => {
+    try {
+        const result = await db.query(
+            "SELECT DISTINCT date FROM turns WHERE status != 'canceled'"
+        );
+        const dates = result.rows.map(r => r.date);
+        res.json(dates);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-// 🔹 لغو نوبت توسط کاربر (PATCH)
-router.patch('/appointments/:id/cancel', auth, (req, res) => {
+// 🔹 لغو نوبت
+router.patch('/appointments/:id/cancel', auth, async (req, res) => {
     const id = req.params.id;
-    db.run(
-        "UPDATE turns SET status='canceled', updated_at=datetime('now') WHERE id=? AND user_id=?",
-        [id, req.user.id],
-        function (err) {
-            if (err) return res.status(500).json({ error: err.message });
-            if (this.changes === 0) return res.status(404).json({ error: 'نوبت پیدا نشد' });
-            res.json({ message: 'نوبت لغو شد' });
+
+    try {
+        const result = await db.query(
+            "UPDATE turns SET status='canceled', updated_at=NOW() WHERE id=$1 AND user_id=$2",
+            [id, req.user.id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'نوبت پیدا نشد' });
         }
-    );
+
+        res.json({ message: 'نوبت لغو شد' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-// 🔹 آپدیت نوبت (تغییر تاریخ/ساعت/سرویس)
-router.put('/appointments/:id', auth, (req, res) => {
+// 🔹 آپدیت نوبت
+router.put('/appointments/:id', auth, async (req, res) => {
     const { date, time, service } = req.body;
     const id = req.params.id;
 
     if (!date || !time) return res.status(400).json({ error: 'تاریخ و ساعت لازم است' });
 
-    db.get(
-        "SELECT * FROM turns WHERE date=? AND time=? AND status!='canceled' AND id!=?",
-        [date, time, id],
-        (err, row) => {
-            if (err) return res.status(500).json({ error: err.message });
-            if (row) return res.status(400).json({ error: 'این زمان قبلاً رزرو شده' });
+    try {
+        const conflict = await db.query(
+            "SELECT * FROM turns WHERE date=$1 AND time=$2 AND status!='canceled' AND id!=$3",
+            [date, time, id]
+        );
 
-            db.run(
-                "UPDATE turns SET date=?, time=?, service=?, updated_at=datetime('now') WHERE id=? AND user_id=?",
-                [date, time, service || 'general', id, req.user.id],
-                function (err) {
-                    if (err) return res.status(500).json({ error: err.message });
-                    if (this.changes === 0) return res.status(404).json({ error: 'نوبت پیدا نشد' });
-                    res.json({ message: 'نوبت آپدیت شد' });
-                }
-            );
+        if (conflict.rows.length > 0) {
+            return res.status(400).json({ error: 'این زمان قبلاً رزرو شده' });
         }
-    );
+
+        await db.query(
+            "UPDATE turns SET date=$1, time=$2, service=$3, updated_at=NOW() WHERE id=$4 AND user_id=$5",
+            [date, time, service || 'general', id, req.user.id]
+        );
+
+        res.json({ message: 'نوبت آپدیت شد' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 module.exports = router;

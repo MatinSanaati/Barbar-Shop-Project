@@ -55,22 +55,23 @@ exports.login = async (req, res) => {
         // چک کردن وجود کاربر در دیتابیس
         const user = await User.login(phone);
 
-        // ✅ به‌روزرسانی زمان آخرین لاگین
-        db.run("UPDATE users SET last_login = datetime('now') WHERE id = ?", [user.id], (err) => {
-            if (err) console.error('خطا در به‌روزرسانی last_login:', err);
-        });
+        // ✅ به‌روزرسانی زمان آخرین لاگین — با PostgreSQL
+        await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id])
+            .catch(err => {
+                console.error('❌ خطا در به‌روزرسانی last_login:', err.message);
+            });
 
-        // ✅ تعیین نقش: اگر شماره ادمین بود، نقش admin بده
+        // تعیین نقش
         const role = phone === process.env.ADMIN_PHONE ? 'admin' : user.role;
 
-        // ✅ ساخت JWT با نقش درست
+        // ساخت JWT
         const token = jwt.sign(
             { id: user.id, role },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        // ✅ ارسال توکن با کوکی امن
+        // ارسال توکن با کوکی
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -79,7 +80,6 @@ exports.login = async (req, res) => {
             path: '/'
         });
 
-        // ✅ ارسال اطلاعات کاربر به فرانت (شامل role)
         res.json({
             message: 'ورود موفقیت‌آمیز',
             user: {
