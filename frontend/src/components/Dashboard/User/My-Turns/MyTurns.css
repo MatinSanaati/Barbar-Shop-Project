@@ -1,13 +1,14 @@
-/* src/components/Dashboard/User/My-Turns/My-Turns.css */
-
-/* --- ظاهر کلی --- */
-.booking-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
+.myturns-page {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    background-color: var(--bg);
+    max-width: 1200px;
+    min-height: 550px;
+    margin: 2rem auto;
 }
 
-.appointments-title {
+.page-title {
     text-align: center;
     color: var(--primary);
     margin-bottom: 1rem;
@@ -22,6 +23,76 @@
     margin: 0.5rem auto;
     border-radius: 2px;
     animation: slideIn 0.8s ease-out;
+}
+
+.animated-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--card-bg);
+    box-shadow: 0 8px 16px var(--shadow);
+    animation: bounceFade 1s ease forwards, colorPulse 2s infinite alternate;
+}
+
+/* ترکیب حرکت و fade-in */
+@keyframes bounceFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(10px) scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* جلوه رنگی متغیر */
+@keyframes colorPulse {
+    0% {
+        color: var(--primary);
+    }
+
+    50% {
+        color: #f9c74f;
+    }
+
+    100% {
+        color: var(--primary);
+    }
+}
+
+/* واکنش‌گرایی متن */
+@media (max-width: 480px) {
+    .animated-message {
+        font-size: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .animated-message {
+        font-size: 0.9rem;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 200px) {
+    .animated-message {
+        font-size: 0.8rem;
+        padding: 0.7rem;
+    }
 }
 
 @keyframes slideIn {

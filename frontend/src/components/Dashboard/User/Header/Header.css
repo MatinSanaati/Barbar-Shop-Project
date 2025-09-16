@@ -75,6 +75,21 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
+/* لینک فعال */
+.nav-link.active {
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border-bottom: 3px solid var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.mobile-link.active {
+    background: color-mix(in srgb, var(--primary) 15%, transparent);
+    border-right: 3px solid var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
 /* اکشن‌ها */
 .header-actions {
     display: flex;

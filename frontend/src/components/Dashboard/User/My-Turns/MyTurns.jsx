@@ -64,7 +64,7 @@ const MyTurns = () => {
                     ) : error ? (
                         <div className="error">{error}</div>
                     ) : appointments.length === 0 ? (
-                        <div className="no-appointments">شما هنوز نوبتی نگرفته‌اید.</div>
+                        <div className="no-appointments animated-message">شما هنوز نوبتی نگرفته‌اید.</div>
                     ) : null}
 
                     {/* شبکه کارت‌های نوبت */}

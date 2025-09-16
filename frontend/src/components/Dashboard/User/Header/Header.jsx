@@ -4,9 +4,16 @@ import "./Header.css";
 import SunIcon from "../../../icons/Sun-Icon";
 import MoonIcon from "../../../icons/Moon-Icon";
 import UserProfileIcon from "../../../icons/User-Profile-Icon";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ initialTheme = "light" }) => {
+    const location = useLocation();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || initialTheme;
+    });
+
     const menuItems = [
         { path: "/user/my-turns", label: "نوتب های من" },
         { path: "/user/blog", label: "بلاگ" },
@@ -15,12 +22,6 @@ const Header = ({ initialTheme = "light" }) => {
         { path: "/user/about", label: "درباره من" },
         { path: "/user/services", label: "خدمات" },
     ];
-
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem("theme") || initialTheme;
-    });
 
     const menuRef = useRef(null);
     const lastActiveRef = useRef(null);
@@ -76,7 +77,7 @@ const Header = ({ initialTheme = "light" }) => {
                     <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", flexDirection: "row-reverse" }}>
                         {/* لوگو */}
                         <div className="brand">
-                            <Link to="/" className="brand-link">
+                            <Link to="/user" className="brand-link">
                                 <i className="fas fa-cut"></i>
                                 <span>آرایشگاه مردانه</span>
                             </Link>
@@ -101,7 +102,10 @@ const Header = ({ initialTheme = "light" }) => {
                         <ul>
                             {menuItems.map((item) => (
                                 <li key={item.path}>
-                                    <Link to={item.path} className="nav-link">
+                                    <Link
+                                        to={item.path}
+                                        className={`nav-link ${location.pathname === item.path ? "active" : ""}`}
+                                    >
                                         {item.label}
                                     </Link>
                                 </li>
@@ -149,7 +153,7 @@ const Header = ({ initialTheme = "light" }) => {
                                 <li key={item.path}>
                                     <Link
                                         to={item.path}
-                                        className="mobile-link"
+                                        className={`mobile-link ${location.pathname === item.path ? "active" : ""}`}
                                         onClick={() => setMobileOpen(false)}
                                     >
                                         {item.label}
