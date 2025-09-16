@@ -116,13 +116,6 @@ const RegisterForm = ({ onSwitch }) => {
                 <button type="submit" className="btn btn-primary">
                     <i className="fas fa-user-plus"></i> ثبت‌ نام
                 </button>
-
-                <div className="login-link">
-                    قبلاً ثبت‌ نام کرده‌اید؟{" "}
-                    <a href="#" onClick={(e) => { e.preventDefault(); onSwitch("login"); }}>
-                        وارد شوید
-                    </a>
-                </div>
             </form>
         </div>
     );

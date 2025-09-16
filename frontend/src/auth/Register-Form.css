@@ -110,24 +110,3 @@
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
-
-.login-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    max-width: 70%;
-    margin-top: 1rem;
-}
-
-.login-link a {
-    color: #d4af37;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    cursor: pointer;
-    transition: all ease-in-out .1s;
-}
-
-.login-link a:hover {
-    transform: scale(1.1);
-}
