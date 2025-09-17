@@ -10,7 +10,7 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'http://localhost:5173',
-        'https://barbar-shop-project.vercel.app'
+        'REACT_APP_API_URL'
     ],
     credentials: true
 }));
