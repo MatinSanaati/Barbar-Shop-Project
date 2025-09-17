@@ -1,5 +1,4 @@
-// backend/config/db.js
-const { Client } = require('pg');
+const { Pool } = require('pg');
 require('dotenv').config();
 
 if (!process.env.DATABASE_URL) {
@@ -7,18 +6,22 @@ if (!process.env.DATABASE_URL) {
   process.exit(1);
 }
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false // ضروری برای Neon
-  }
+    rejectUnauthorized: false
+  },
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 5000
 });
 
-client.connect()
-  .then(() => console.log('✅ اتصال به PostgreSQL (Neon) برقرار شد'))
-  .catch(err => {
-    console.error('❌ خطا در اتصال به دیتابیس:', err.message);
-    process.exit(1);
-  });
+// 🔥 اضافه کردن مدیریت خطا برای قطعی ناگهانی
+pool.on('error', (err) => {
+  console.error('⚠️ خطای ارتباط با دیتابیس:', err.message);
+  // Pool به صورت خودکار سعی می‌کنه دوباره وصل بشه
+});
 
-module.exports = client;
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+};

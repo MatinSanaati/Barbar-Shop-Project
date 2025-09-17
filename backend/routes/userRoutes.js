@@ -37,23 +37,28 @@ router.get('/me/full-profile', auth, (req, res) => {
     const userId = req.user.id;
 
     const query = `
-        SELECT 
-            u.name, u.phone, u.created_at, u.last_login,
-            p.avatar,
-            (SELECT COUNT(*) FROM turns WHERE user_id = u.id AND status = 'pending') as pending_turns,
-            (SELECT COUNT(*) FROM turns WHERE user_id = u.id AND status = 'confirmed') as confirmed_turns,
-            (SELECT COUNT(*) FROM turns WHERE user_id = u.id) as total_turns
-        FROM users u
-        LEFT JOIN profiles p ON u.id = p.user_id
-        WHERE u.id = ?
-    `;
+    SELECT 
+        u.name, u.phone, u.created_at, u.last_login,
+        p.avatar,
+        (SELECT COUNT(*) FROM turns WHERE user_id = u.id AND status = 'pending') as pending_turns,
+        (SELECT COUNT(*) FROM turns WHERE user_id = u.id AND status = 'confirmed') as confirmed_turns,
+        (SELECT COUNT(*) FROM turns WHERE user_id = u.id) as total_turns
+    FROM users u
+    LEFT JOIN profiles p ON u.id = p.user_id
+    WHERE u.id = $1
+`;
 
-    db.get(query, [userId], (err, data) => {
-        if (err) return res.status(500).json({ error: 'خطا در دریافت اطلاعات' });
-        if (!data) return res.status(404).json({ error: 'کاربر یافت نشد' });
-
-        res.json({ profile: data });
-    });
+    db.query(query, [userId])
+        .then(result => {
+            if (result.rows.length === 0) {
+                return res.status(404).json({ error: 'کاربر یافت نشد' });
+            }
+            res.json({ profile: result.rows[0] });
+        })
+        .catch(err => {
+            console.error('❌ خطا در دریافت اطلاعات:', err);
+            res.status(500).json({ error: 'خطا در دریافت اطلاعات' });
+        });
 });
 
 //  خروج

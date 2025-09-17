@@ -5,24 +5,22 @@ const router = express.Router();
 
 // 🔹 دریافت همه خدمات
 router.get('/services', (req, res) => {
-    db.all("SELECT * FROM services ORDER BY id", (err, rows) => {
-        if (err) {
+    db.query("SELECT * FROM services ORDER BY id")
+        .then(result => res.json(result.rows))
+        .catch(err => {
             console.error('❌ خطا در دریافت خدمات:', err);
-            return res.status(500).json({ error: 'خطا در دریافت خدمات' });
-        }
-        res.json(rows);
-    });
+            res.status(500).json({ error: 'خطا در دریافت خدمات' });
+        });
 });
 
 // 🔹 دریافت همه تصاویر گالری
 router.get('/gallery', (req, res) => {
-    db.all("SELECT * FROM gallery ORDER BY id", (err, rows) => {
-        if (err) {
+    db.query("SELECT * FROM gallery ORDER BY id")
+        .then(result => res.json(result.rows))
+        .catch(err => {
             console.error('❌ خطا در دریافت گالری:', err);
-            return res.status(500).json({ error: 'خطا در دریافت گالری' });
-        }
-        res.json(rows);
-    });
+            res.status(500).json({ error: 'خطا در دریافت گالری' });
+        });
 });
 
 // 🔹 دریافت اطلاعات سایت (عکس‌ها و متن‌ها)
