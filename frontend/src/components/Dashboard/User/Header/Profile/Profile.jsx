@@ -24,7 +24,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}http://localhost:5000/api/users/me`, {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
                     method: "GET",
                     credentials: "include",
                 });
@@ -71,7 +71,7 @@ const Profile = () => {
         if (!Object.keys(updates).length) return alert("هیچ تغییری اعمال نشد");
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}http://localhost:5000/api/users/update`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/update`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -102,7 +102,7 @@ const Profile = () => {
     // خروج
     const handleLogout = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}http://localhost:5000/api/users/logout`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/logout`, {
                 method: "POST",
                 credentials: "include",
             });
